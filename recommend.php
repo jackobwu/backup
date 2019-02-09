@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>有朋</title>
+        <link rel="stylesheet" href="res/css/recommend.css">
+    </head>
+    <body>
+        <header>
+            <nav>
+                <div class="container">
+                    <div class="dropdown">
+                        <button class="dropbtn">设置</button>
+                        <div class="dropdown-content">
+                            <a href="change-password.php">修改密码</a>
+                            <a href="logout.php">退出</a>
+                        </div>
+                    </div>
+                    <a href="search.php">推荐</a>
+                    <a href="index.php">首页</a>
+                    <a id="logo" href="index.php">有朋</a>
+                    <form action="search.php" method="get">
+                        <input type="search" name="keyword" placeholder="查找你认识的人 ...">
+                        <input type="submit" name="search" value="查询"> 
+                    </form>
+                </div>
+            </nav>
+        </header>
+        <div class="container">
+            <div class="sidebar">
+                <ul>
+                    <li><a href="edit.php">编辑资料</a></li>
+                    <li><a href="#">我的朋友</a></li>
+                    <li><a href="#">我的社群</a></li>
+                    <li><a href="#">我的消息</a></li>
+                    <li><a href="#">隐私设置</a></li>
+                </ul>
+            </div>
+            <div class="main">
+                <div class="card">
+                    <img src="res/profile.png" alt="Avatar" style="width:100%">
+                    <div class="content">
+                        <h4><b>John Doe</b></h4> 
+                        <p>Architect & Engineer</p> 
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="res/profile.png" alt="Avatar" style="width:100%">
+                    <div class="content">
+                        <h4><b>John Doe</b></h4> 
+                        <p>Architect & Engineer</p> 
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="res/profile.png" alt="Avatar" style="width:100%">
+                    <div class="content">
+                        <h4><b>John Doe</b></h4> 
+                        <p>Architect & Engineer</p> 
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="res/profile.png" alt="Avatar" style="width:100%">
+                    <div class="content">
+                        <h4><b>John Doe</b></h4> 
+                        <p>Architect & Engineer</p> 
+                    </div>
+                </div>
+                <div class="card">
+                    <img src="res/profile.png" alt="Avatar" style="width:100%">
+                    <div class="content">
+                        <h4><b>John Doe</b></h4> 
+                        <p>Architect & Engineer</p> 
+                    </div>
+                </div>
+            </div>
+            <div class="clearfix"></div>
+        </div>
+    </body>
+</html>
