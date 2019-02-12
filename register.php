@@ -18,22 +18,22 @@ if (isset($_POST['register'])) {
                             header("Location: login.php");
                             exit;
                         } else {
-                            echo 'Email in use!';
+                            $mail_eerror = 'Email已经被注册!';
                         }
                     } else {
-                        echo 'Invalid email!';
+                        $email_error = 'Email格式不正确!';
                     }
                 } else {
-                    echo 'Invalid password!';
+                    $password_error = '密码长度符！';
                 }
             } else {
-                echo 'Invalid username';
+                $name_error = '无效的名字';
             }
         } else {
-            echo 'Invalid username';
+            $name_error = '名字长度不符';
         }
     } else {
-        echo 'User already exists!';
+        $name_error = '名字已经被使用!';
     }
 }
 ?>
@@ -60,13 +60,16 @@ if (isset($_POST['register'])) {
             <div class="login-form">
             <form action="register.php" method="post">
                 <p>姓</p>
-                <input type="text" name="lastname">
+                <input type="text" name="lastname" required>
                 <p>名</p>
-                <input type="text" name="firstname">
+                <?php  echo $name_error ?>
+                <input type="text" name="firstname" required>
                 <p>邮箱</p>
-                <input type="email" name="email">
+                <?php  echo $email_error ?>
+                <input type="email" name="email" required>
                 <p>密码</p>
-                <input type="password" name="password">         
+                <?php  echo $password_error ?>
+                <input type="password" name="password" required>         
                 <input type="submit" name="register" value="注册">
             </form>
             </div>

@@ -15,7 +15,7 @@
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
-                    <a href="search.php">推荐</a>
+                    <a href="recommend.php">发现</a>
                     <a href="index.php">首页</a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
@@ -29,10 +29,8 @@
             <div class="sidebar">
                 <ul>
                     <li><a href="edit.php">编辑资料</a></li>
-                    <li><a href="#">我的朋友</a></li>
-                    <li><a href="#">我的社群</a></li>
-                    <li><a href="#">我的消息</a></li>
-                    <li><a href="#">隐私设置</a></li>
+                    <li><a href="friends.php">我的朋友</a></li>
+                    <li><a href="received-message.php">我的消息</a></li>
                 </ul>
             </div>
             <div class="main">

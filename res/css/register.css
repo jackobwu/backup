@@ -44,9 +44,10 @@ nav #logo {
 }
 
 .login-form input {
-    width: 80%;
+    width: 70%;
     height: 18px;
     margin-bottom: 20px;
+    border-style: groove;
 }
 
 .login-form input[type="submit"] {
@@ -54,8 +55,8 @@ nav #logo {
     outline: none;
     background: #1c8adb;
     color: #fff;
-    height: 40px;
-    font-size: 18px;
+    height: 30px;
+    font-size: 16px;
 } 
 
 .storyboard {

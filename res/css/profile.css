@@ -172,6 +172,20 @@ nav input[type=submit] {
     margin-right: 10px;
 }
 
+.connection input[type=submit] {
+    border: none;
+    outline: none;
+    background: #1c8adb;
+    color: #fff;
+    height: 28px;
+    width: 100%;
+    font-size: 15px;
+}
+
+.connection input[name=message] {
+    margin-top: 20px;
+}
+
 .mutual-friends {
     margin-top: 20px;
     margin-left: 20px;

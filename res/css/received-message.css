@@ -1,3 +1,5 @@
+/* General */
+
 body {
     margin: 0;
     font-weight: 800;
@@ -6,7 +8,13 @@ body {
 
 .container {
 	width: 80%;
-	margin: 0 auto;
+    margin: 0 auto;
+}
+
+.clearfix::after {
+    content: '';
+    display: table;
+    clear: both;
 }
 
 .title {
@@ -106,8 +114,7 @@ nav input[type=submit] {
 .dropdown:hover .dropdown-content {
     display: block;
 }
-
-/* Leftbar */
+/* Sidebar */
 
 .sidebar {
     width: 15%;
@@ -127,50 +134,36 @@ nav input[type=submit] {
     text-decoration: none;
 }
 
-/* Maincontent */
+/* Email */
 
-.main-content {
+.main {
     width: 85%;
     float: left;
+    margin-top: 30px;
 }
 
-.left {
-    width: 50%;
-    float: left;
-}
-
-.information {
-    margin-top: 28px;
-    margin-left: 20px;
-    margin-right: 10px;
-    padding-bottom: 10px;
+.main .message {
+    margin-top: 10px;
+    margin-left: 10px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    padding: 10px;
     border-style: solid;
     border-color: #c3c3c4;
     border-width: 1px;
-    background-color: #fff;
+    background-color:#fff;
 }
 
-.information label {
-    margin-left: 2%;
+.message a {
+    text-decoration: none;
 }
 
-.information input[type="text"] {
+.message .email-content {
+    margin-left: 5%;
+}
+
+.message .email-tail {
     float: right;
-    margin-right: 50%;
+    margin-right: 5%;
 }
 
-.information input[type=submit] {
-    border: none;
-    outline: none;
-    background: #1c8adb;
-    color: #fff;
-    height: 28px;
-    width: 20%;
-    margin-left: 40%;
-    font-size: 15px;
-}
-
-.right {
-    width: 50%;
-    float: left;
-}

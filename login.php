@@ -18,10 +18,10 @@ if (isset($_POST['login'])) {
             header("Location: /index.php");
             exit;
         } else {
-            echo 'Incorrect Password!';
+            $passwore_error = '密码不正确!';
         }
     } else {
-        echo 'User not registered!';
+        $email_error = '邮箱未注册!';
     }
 }
 ?>
@@ -46,10 +46,11 @@ if (isset($_POST['login'])) {
             <div class="login-form">
                 <form action="login.php" method="post">
                 <p>邮箱</p>
-                <input type="text" name="email">
+                <input type="text" name="email" required>
+                <p><?php echo $email_error ?></p>
                 <p>密码</p>
-                <input type="password" name="password">
-                <br>
+                <input type="password" name="password" required>
+                <p><?php echo $password_error ?></p>
                 <input type="submit" name="login" value="登入">
                 <br>
                 <a href="forgot-password">忘记了密码?</a>

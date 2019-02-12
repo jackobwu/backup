@@ -197,6 +197,12 @@ nav input[type=submit] {
     background-color: #fff;
 }
 
+.friends a {
+    display: block;
+    text-decoration: none;
+    margin-left: 2%; 
+}
+
 .right {
     width: 60%;
     float: left;

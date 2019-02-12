@@ -10,6 +10,8 @@ if (isset($_GET['id'])) {
         $friendOfMine = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
         $meAsFriend = DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid));
         $friends = array_merge($friendOfMine, $meAsFriend);        
+    } else {
+        $friends = [];
     }
 } else {
     if (Login::isLoggedIn()) {
@@ -18,6 +20,8 @@ if (isset($_GET['id'])) {
             $friendOfMine = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
             $meAsFriend = DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid));
             $friends = array_merge($friendOfMine, $meAsFriend);  
+        } else {
+            $friends = [];
         }
     }
 }
@@ -41,7 +45,7 @@ if (isset($_GET['id'])) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
-                    <a href="recommend.php">推荐</a>
+                    <a href="recommend.php">发现</a>
                     <a href="index.php">首页</a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
@@ -54,18 +58,17 @@ if (isset($_GET['id'])) {
         <div class="container">
             <div class="sidebar">
                 <ul>
-                    <li><a href="edit.php">编辑资料</a></li>
-                    <li><a href="#">我的朋友</a></li>
-                    <li><a href="#">我的社群</a></li>
-                    <li><a href="#">我的消息</a></li>
-                    <li><a href="#">隐私设置</a></li>
+                    <li><a href="friends-receive.php">待处理申请</a></li>
+                    <li><a href="friends-request.php">我的好友申请</a></li>
+                    <li><a href="friends.php">好友列表</a></li>
+                    <li><a href="received-message.php">我的私信</a></li>
                 </ul>
             </div>
             <div class="main">
             <?php foreach ($friends as $friend) { 
                 $friendName = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friend[0]))[0]['username'];
                 $friendId = DB::query('SELECT id FROM users WHERE username=:username', array(':username'=>$friendName))[0]['id']; 
-                echo "<a class='card' href='profile.php?id=$friendId'>
+                echo "<a class='card' href='profile.php?id=".$friendId."'>
                     <img src='res/profile.png' alt='Avatar' style='width:100%'>
                     <div class='content'>
                         <h4><b>$friendName</b></h4> 

@@ -29,6 +29,15 @@ $mobile = DB::query('SELECT mobile FROM users WHERE id=:userid', array(':userid'
 $wechat = DB::query('SELECT wechat FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['wechat'];
 $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['qq'];
 
+if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid)) || DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid)) ) {
+    $friendOfMine = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
+    $meAsFriend = DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid));
+    $friends = array_merge($friendOfMine, $meAsFriend);
+    $friendName1 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[0][0]))[0]['username'];
+    $friendName2 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[1][0]))[0]['username'];
+    $friendName3 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[2][0]))[0]['username'];
+}
+
 ?>
 
 <!DOCTYPE html>
@@ -48,7 +57,7 @@ $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$useri
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
-                    <a href="recommend.php">可能认识</a>
+                    <a href="recommend.php">发现</a>
                     <a href="index.php">首页</a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
@@ -63,8 +72,7 @@ $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$useri
             <ul>
                 <li><a href="edit.php">编辑资料</a></li>
                 <li><a href="friends.php">我的朋友</a></li>
-                <li><a href="#">我的消息</a></li>
-                <li><a href="#">隐私设置</a></li>
+                <li><a href="received-message.php">我的私信</a></li>
             </ul>
         </div>
         <div class="main">
@@ -73,25 +81,20 @@ $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$useri
                     <div class="title">头像</div>
                     <img src="res/profile.png" alt="profileimg">
                 </div>
-                <!-- <div class="connection">
-                    <div class="title">好友关系</div>
-                    <p>这是你自己</p>
-                </div> -->
-                <!-- <div class="mutual-friends">
-                    <div class="title">共同好友</div>
-                    <p>你们有0个共同好友</p>
-                </div> -->
                 <div class="friends">
                     <div class="title">好友</div>
-                    <p>jackob</p>
-                    <p>jackob</p>
-                    <p>jackob</p>
-                    <p>jackob</p>
+                    <?php if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid)) || DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid)) ) {?>
+                        <a href='profile.php?id=<?php echo $friends[0][0] ?>'><?php echo $friendName1 ?></a><br>
+                        <a href='profile.php?id=<?php echo $friends[1][0] ?>'><?php echo $friendName2 ?></a><br>
+                        <a href='profile.php?id=<?php echo $friends[2][0] ?>'><?php echo $friendName3 ?></a><br>
+                    <?php } else { ?>
+                        <p> 你暂时还未添加任何朋友</p>
+                    <?php } ?>
+                    <a href="friends.php">查看更多<a>
                 </div>
             </div>
             <div class="right">
                 <div class="information">
-                    <div class="title">资料</div>
                     <p>账号信息</p>
                     <p>姓名: <?php echo $username ?></p>
                     <p>加入时间: <?php echo $created_at ?></p>
