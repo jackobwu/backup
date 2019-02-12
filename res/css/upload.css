@@ -135,7 +135,7 @@ nav input[type=submit] {
 }
 
 
-input[name=uploadprofileimg] {
+input[name=upload] {
     border: none;
     outline: none;
     background: #1c8adb;

@@ -14,7 +14,7 @@ if (isset($_POST['register'])) {
                 if (strlen($password) >= 6 && strlen($password) <= 60) {
                     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                         if (!DB::query('SELECT email FROM users WHERE email=:email', array(':email'=>$email))) {
-                            DB::query('INSERT INTO users VALUES (NULL, :username, :email, :password, DEFAULT, DEFAULT, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)', array(':username'=>$username, ':email'=>$email, ':password'=>password_hash($password, PASSWORD_BCRYPT)));
+                            DB::query('INSERT INTO users VALUES (NULL, :username, :email, :password, DEFAULT, DEFAULT, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)', array(':username'=>$username, ':email'=>$email, ':password'=>password_hash($password, PASSWORD_BCRYPT)));
                             header("Location: login.php");
                             exit;
                         } else {

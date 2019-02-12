@@ -9,9 +9,11 @@ if (Login::isLoggedIn()) {
     header("Location: /login.php");
     exit;
 }
+
 $username = DB::query('SELECT username FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['username'];
 $created_at = DB::query('SELECT created_at FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['created_at'];
 $updated_at = DB::query('SELECT updated_at FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['updated_at'];
+$avatar = DB::query('SELECT avatar FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['avatar'];
 $email = DB::query('SELECT email FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['email'];
 $gender = DB::query('SELECT gender FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['gender'];
 $birthday = DB::query('SELECT birthday FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['birthday'];
@@ -79,7 +81,11 @@ if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accep
             <div class="left">
                 <div class="avatar">
                     <div class="title">头像</div>
-                    <img src="res/profile.png" alt="profileimg">
+                    <?php if ($avatar == NULL) { ?>
+                        <img src="res/profile.png" alt="profileimg">
+                    <?php } else { ?>
+                        <img src="res/uploads/<?php echo $avatar ?>" alt="profileimg">
+                    <?php } ?>    
                 </div>
                 <div class="friends">
                     <div class="title">好友</div>

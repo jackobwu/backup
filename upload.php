@@ -4,11 +4,33 @@ include 'classes/DB.php';
 include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
-    $userid = Login::isLoggedIn();
+    $user_id = Login::isLoggedIn();
 } else {
     header("Location: /login.php");
     exit;
 }
+
+$target_dir = "res/uploads/";
+if (isset($_POST['upload'])) {
+    $check = getimagesize($_FILES["profileimg"]["tmp_name"]);
+    $end = explode(".", $_FILES["profileimg"]["name"]);
+    $target_file = $target_dir . uniqid(rand()) . '.' . $end[1];
+    if($check !== false) {
+        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+        if($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif" ) {
+            if ($_FILES["profileimg"]["size"] < 500000) {
+                move_uploaded_file($_FILES["profileimg"]["tmp_name"], $target_file);
+                $temp = explode("/", $target_file);
+                $filename = $temp[2];
+                DB::query('UPDATE users SET avatar = :avatar where id=:id', array(':id'=>$user_id, ':avatar'=>$filename));
+            }
+        }
+
+    } else {
+        echo "仅支持图片类型文件.";
+    }
+}
+
 
 ?>
 
@@ -51,9 +73,9 @@ if (Login::isLoggedIn()) {
             <div class="main-content">
             <h2>上传头像</h2>
             <form action="upload.php" method="post" enctype="multipart/form-data">
-                    <input type="file" name="profileimg">
-                    <br>
-                    <input type="submit" name="uploadprofileimg" value="上传">
+                <input type="file" name="profileimg">
+                <br>
+                <input type="submit" name="upload" value="上传">
             </form>
             </div>
         </div>

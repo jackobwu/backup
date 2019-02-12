@@ -12,6 +12,7 @@ if (isset($_GET['id'])) {
         $created_at = DB::query('SELECT created_at FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['created_at'];
         $updated_at = DB::query('SELECT updated_at FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['updated_at'];
         $email = DB::query('SELECT email FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['email'];
+        $avatar = DB::query('SELECT avatar FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['avatar'];
         $gender = DB::query('SELECT gender FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['gender'];
         $birthday = DB::query('SELECT birthday FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['birthday'];
         $hometown = DB::query('SELECT hometown FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['hometown'];
@@ -85,17 +86,19 @@ if (isset($_GET['id'])) {
         <div class="sidebar">
             <ul>
                 <li><a href="edit.php">编辑资料</a></li>
-                <li><a href="#">我的朋友</a></li>
-                <li><a href="#">我的社群</a></li>
-                <li><a href="#">我的消息</a></li>
-                <li><a href="#">隐私设置</a></li>
+                <li><a href="friends.php">我的朋友</a></li>
+                <li><a href="received-message.php">我的私信</a></li>
             </ul>
         </div>
         <div class="main">
             <div class="left">
                 <div class="avatar">
                     <div class="title">头像</div>
-                    <img src="res/profile.png" alt="profileimg">
+                    <?php if ($avatar == NULL) { ?>
+                        <img src="res/profile.png" alt="profileimg">
+                    <?php } else { ?>
+                        <img src="res/uploads/<?php echo $avatar ?>" alt="profileimg">
+                    <?php } ?>  
                 </div>
                 <div class="connection">
                     <form action="profile.php?id=<?php echo $userid ?>" method="post">
