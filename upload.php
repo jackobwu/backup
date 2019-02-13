@@ -11,23 +11,34 @@ if (Login::isLoggedIn()) {
 }
 
 $target_dir = "res/uploads/";
-if (isset($_POST['upload'])) {
-    $check = getimagesize($_FILES["profileimg"]["tmp_name"]);
-    $end = explode(".", $_FILES["profileimg"]["name"]);
-    $target_file = $target_dir . uniqid(rand()) . '.' . $end[1];
-    if($check !== false) {
-        $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-        if($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif" ) {
-            if ($_FILES["profileimg"]["size"] < 500000) {
-                move_uploaded_file($_FILES["profileimg"]["tmp_name"], $target_file);
-                $temp = explode("/", $target_file);
-                $filename = $temp[2];
-                DB::query('UPDATE users SET avatar = :avatar where id=:id', array(':id'=>$user_id, ':avatar'=>$filename));
-            }
-        }
+$upload = "";
+if (DB::query('SELECT avatar FROM users WHERE id=:id', array(':id'=>$user_id))) {
+    $old_avatar = $target_dir . DB::query('SELECT avatar FROM users WHERE id=:id', array(':id'=>$user_id))[0]['avatar'];
+}
 
-    } else {
-        echo "仅支持图片类型文件.";
+if (isset($_POST['upload'])) {
+    if (file_exists($_FILES["profileimg"]["tmp_name"])) {
+        $check = getimagesize($_FILES["profileimg"]["tmp_name"]);
+        $end = explode(".", $_FILES["profileimg"]["name"]);
+        $target_file = $target_dir . uniqid(rand()) . '.' . $end[1];
+        if($check !== false) {
+            $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+            if($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif" ) {
+                if ($_FILES["profileimg"]["size"] < 500000) {
+                    move_uploaded_file($_FILES["profileimg"]["tmp_name"], $target_file);
+                    $temp = explode("/", $target_file);
+                    $filename = $temp[2];
+                    if (file_exists($old_avatar)) {
+                        unlink($old_avatar);
+                        DB::query('UPDATE users SET avatar = :avatar where id=:id', array(':id'=>$user_id, ':avatar'=>$filename));
+                        $upload = "上传成功";
+                    }
+                }
+            }
+
+        } else {
+            echo "仅支持图片类型文件.";
+        }
     }
 }
 
@@ -77,6 +88,7 @@ if (isset($_POST['upload'])) {
                 <br>
                 <input type="submit" name="upload" value="上传">
             </form>
+            <p><?php if ($upload) { echo $upload; } ?></p>
             </div>
         </div>
     </body>

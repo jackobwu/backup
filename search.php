@@ -41,9 +41,7 @@ if (isset($_GET['search']) && ($_GET['keyword'] !== "")) {
                 <ul>
                     <li><a href="edit.php">编辑资料</a></li>
                     <li><a href="#">我的朋友</a></li>
-                    <li><a href="#">我的社群</a></li>
                     <li><a href="#">我的消息</a></li>
-                    <li><a href="#">隐私设置</a></li>
                 </ul>
             </div>
             <div class="main">

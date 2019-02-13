@@ -10,6 +10,10 @@ if (Login::isLoggedIn()) {
         $request_id = DB::query('SELECT id from users where username=:username', array(':username'=>$_POST['request_name']))[0]['id']; 
         DB::query('UPDATE friendship SET accept=1 WHERE friend_id=:receive_id AND user_id=:request_id', array(':receive_id'=>$user_id, ':request_id'=>$request_id));
         header("Refresh:0");
+    } else if (isset($_POST['disagree'])) {
+        $request_id = DB::query('SELECT id from users where username=:username', array(':username'=>$_POST['request_name']))[0]['id']; 
+        DB::query('DELETE FROM friendship WHERE friend_id=:receive_id AND user_id=:request_id', array(':receive_id'=>$user_id, ':request_id'=>$request_id));
+        header("Refresh:0");
     }
 }
 

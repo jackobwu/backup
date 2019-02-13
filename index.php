@@ -30,6 +30,7 @@ $lookfor = DB::query('SELECT lookfor FROM users WHERE id=:userid', array(':useri
 $mobile = DB::query('SELECT mobile FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['mobile'];
 $wechat = DB::query('SELECT wechat FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['wechat'];
 $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['qq'];
+$about_me = DB::query('SELECT about_me FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['about_me'];
 
 if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid)) || DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid)) ) {
     $friendOfMine = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
@@ -87,6 +88,15 @@ if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accep
                         <img src="res/uploads/<?php echo $avatar ?>" alt="profileimg">
                     <?php } ?>    
                 </div>
+                <div class="aboutme">
+                    <div class="title">关于我</div>
+                    <?php if ($about_me == NULL) { 
+                        echo "<p>你还未添加个人说明</p>";
+                    } else {
+                        echo "<p>".$about_me."</p>";
+                    } ?>
+
+                </div>
                 <div class="friends">
                     <div class="title">好友</div>
                     <?php if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid)) || DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid)) ) {?>
@@ -118,14 +128,9 @@ if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accep
                     <p>微信: <?php echo $wechat ?></p>
                     <p>qq: <?php echo $qq ?></p>
                     <p>电子邮件: <?php echo $email ?></p>
-                    <p>博客:</p>
                     <p>个人信息</p>
                     <p>寻找: <?php echo $lookfor ?></p>
-                    <p>个人兴趣:</p>
                     <p>感情状况: <?php echo $relationship ?></p>
-                    <p>希望另一半是:</p>
-                    <p>喜欢的东东:</p>
-                    <p>关于我:</p>
                 </div>
             </div>
             

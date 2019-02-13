@@ -26,6 +26,7 @@ $lookfor = DB::query('SELECT lookfor FROM users WHERE id=:userid', array(':useri
 $mobile = DB::query('SELECT mobile FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['mobile'];
 $wechat = DB::query('SELECT wechat FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['wechat'];
 $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['qq'];
+$about_me = DB::query('SELECT about_me FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['about_me'];
 
 if (isset($_POST['foundation'])) {
     $newusername = $_POST['username'];
@@ -87,6 +88,13 @@ if (isset($_POST['contact'])) {
     $new_qq = $_POST['qq'];
 
     DB::query('UPDATE users SET mobile=:mobile, wechat=:wechat, qq=:qq WHERE id=:userid', array(':mobile'=>$new_mobile, ':wechat'=>$new_wechat, ':qq'=>$new_qq, ':userid'=>$userid));
+    header("Refresh:0");
+}
+
+if (isset($_POST['about_me'])) {
+    $new_about = $_POST['about_body'];
+
+    DB::query('UPDATE users SET about_me=:about_me WHERE id=:userid', array(':about_me'=>$new_about, ':userid'=>$userid));
     header("Refresh:0");
 }
 
@@ -212,8 +220,14 @@ if (isset($_POST['contact'])) {
                                 <br><br>
                                 <input type="submit" name="contact" value="修改">
                             </form>
-                        </div>
-                    </div> 
+                    </div>
+                    <div class="aboutme">
+                        <div class="title">关于我</div>
+                            <form action="edit.php" method="post">
+                                <textarea name="about_body" rows="6" cols="60"><?php echo $about_me ?></textarea><br>
+                                <input type="submit" name="about_me" value="修改">
+                            </form>
+                    </div>
                 </div>
         </div>
     </body>

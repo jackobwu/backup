@@ -147,13 +147,9 @@ if (isset($_GET['id'])) {
                     <p>微信: <?php echo $wechat ?></p>
                     <p>qq: <?php echo $qq ?></p>
                     <p>电子邮件: <?php echo $email ?></p>
-                    <p>博客:</p>
                     <p>个人信息</p>
                     <p>寻找: <?php echo $lookfor ?></p>
-                    <p>个人兴趣:</p>
                     <p>感情状况: <?php echo $relationship ?></p>
-                    <p>希望另一半是:</p>
-                    <p>喜欢的东东:</p>
                     <p>关于我:</p>
                 </div>
             </div>
