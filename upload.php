@@ -12,8 +12,11 @@ if (Login::isLoggedIn()) {
 
 $target_dir = "res/uploads/";
 $upload = "";
-if (DB::query('SELECT avatar FROM users WHERE id=:id', array(':id'=>$user_id))) {
+$old_exist = DB::query('SELECT avatar FROM users WHERE id=:id', array(':id'=>$user_id))[0]['avatar'];
+if ($old_exist != NULL) {
     $old_avatar = $target_dir . DB::query('SELECT avatar FROM users WHERE id=:id', array(':id'=>$user_id))[0]['avatar'];
+} else {
+    $old_avatar = NULL;
 }
 
 if (isset($_POST['upload'])) {
@@ -28,8 +31,11 @@ if (isset($_POST['upload'])) {
                     move_uploaded_file($_FILES["profileimg"]["tmp_name"], $target_file);
                     $temp = explode("/", $target_file);
                     $filename = $temp[2];
-                    if (file_exists($old_avatar)) {
+                    if ($old_avatar != NULL) {
                         unlink($old_avatar);
+                        DB::query('UPDATE users SET avatar = :avatar where id=:id', array(':id'=>$user_id, ':avatar'=>$filename));
+                        $upload = "上传成功";
+                    } else {
                         DB::query('UPDATE users SET avatar = :avatar where id=:id', array(':id'=>$user_id, ':avatar'=>$filename));
                         $upload = "上传成功";
                     }
@@ -62,7 +68,7 @@ if (isset($_POST['upload'])) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
-                    <a href="recommend.php">发现</a>
+                    <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">

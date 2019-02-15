@@ -139,5 +139,35 @@ nav input[type=submit] {
 .main {
     width: 85%;
     float: left;
+    margin-top: 20px;
+}
+
+.main input[type=submit] {
+    background-color: #1c8adb;
+    border: none;
+    color: white;
+    text-decoration: none;
+    margin: 4px 2px;
+    font-size: 15px;
+    width: 10%;
+}
+
+/**
+**Message
+*/
+
+.main .message {
     margin-top: 10px;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    padding: 10px;
+    border-style: solid;
+    border-color: #c3c3c4;
+    border-width: 1px;
+    background-color:#fff;
+}
+
+.main .message p {
+    margin-left: 10px;
+
 }

@@ -3,40 +3,32 @@
 include 'classes/DB.php';
 include 'classes/Login.php';
 
-
-if (isset($_GET['id'])) {
-    $userid = $_GET['id'];
-    if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid)) || DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid)) ) {
-        $friendOfMine = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
-        $meAsFriend = DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid));
-        $friends = array_merge($friendOfMine, $meAsFriend);
-            
+if (Login::isLoggedIn()) {
+    $user_id = Login::isLoggedIn();
+    if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id)) || DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$user_id)) ) {
+        $friendOfMine = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id));
+        $meAsFriend = DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$user_id));
+        $friends = array_merge($friendOfMine, $meAsFriend);  
+        //Pagination
+        $totalNumbers = count($friends); 
+        $limit = 20;
+        $pages = ceil($totalNumbers / $limit);
+        $page = min($pages, filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, array(
+            'options' => array(
+                'default'   => 1,
+                'min_range' => 1,
+            ),
+        )));
+        $offset = ($page - 1)  * $limit;
+        $friendsOfPage = array_slice($friends, $offset, $limit);
+        
     } else {
-        $friends = [];
+        $friendsOfPage = [];
     }
+
 } else {
-    if (Login::isLoggedIn()) {
-        $userid = Login::isLoggedIn();
-        if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid)) || DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid)) ) {
-            $friendOfMine = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
-            $meAsFriend = DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid));
-            $friends = array_merge($friendOfMine, $meAsFriend);  
-            //Pagination
-            $totalNumbers = count($friends); 
-            $limit = 20;
-            $pages = ceil($totalNumbers / $limit);
-            $page = min($pages, filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, array(
-                'options' => array(
-                    'default'   => 1,
-                    'min_range' => 1,
-                ),
-            )));
-            $offset = ($page - 1)  * $limit;
-            $friendsOfPage = array_slice($friends, $offset, $limit);
-        } else {
-            $friendsOfPage = [];
-        }
-    }
+    header("Location: login.php");
+    exit;
 }
 
 ?>
@@ -45,7 +37,7 @@ if (isset($_GET['id'])) {
 <html>
     <head>
         <title>有朋</title>
-        <link rel="stylesheet" href="res/css/friends.css">
+        <link rel="stylesheet" href="res/css/contact.css">
     </head>
     <body>
         <header>
@@ -71,10 +63,9 @@ if (isset($_GET['id'])) {
         <div class="container">
             <div class="sidebar">
                 <ul>
-                    <li><a href="friends-receive.php">待处理申请</a></li>
-                    <li><a href="friends-request.php">我的好友申请</a></li>
-                    <li><a href="friends.php">好友列表</a></li>
-                    <li><a href="received-message.php">我的私信</a></li>
+                    <li><a href="received-message.php">收件箱</a></li>
+                    <li><a href="sent-message.php">发件箱</a></li>
+                    <li><a href="contact.php">联系人</a></li>
                 </ul>
             </div>
             <div class="main">
@@ -102,12 +93,13 @@ if (isset($_GET['id'])) {
                 </div>
                 <?php if ($pages > 1) { ?>
                 <div class="pagination">
-                    <a href="friends.php?page=<?php if ($page>1){echo $page-1;}else{echo 1;} ?>">&laquo;</a>
-                    <a class="active"  href="friends.php?page=<?php echo $page ?>">第<?php echo $page; ?>页</a>
-                    <a href="friends.php?page=<?php echo $pages ?>">共<?php echo $pages ?>页</a>
-                    <a href="friends.php?page=<?php if ($page<$pages){echo $page+1;}else{echo $pages;} ?>">&raquo;</a>
+                    <a href="contact.php?page=<?php if ($page>1){echo $page-1;}else{echo 1;} ?>">&laquo;</a>
+                    <a class="active"  href="contact.php?page=<?php echo $page ?>">第<?php echo $page; ?>页</a>
+                    <a href="contact.php?page=<?php echo $pages ?>">共<?php echo $pages ?>页</a>
+                    <a href="contact.php?page=<?php if ($page<$pages){echo $page+1;}else{echo $pages;} ?>">&raquo;</a>
                 </div>
                 <?php } ?>
+                
             </div>
         </div>
     </body>

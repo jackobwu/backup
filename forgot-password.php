@@ -9,7 +9,7 @@ if (isset($_POST['resetpassword'])) {
         $email = $_POST['email'];
         $user_id = DB::query('SELECT id FROM users WHERE email=:email', array(':email'=>$email))[0]['id'];
         DB::query('INSERT INTO password_tokens VALUES (NULL, :token, :user_id)', array(':token'=>sha1($token), ':user_id'=>$user_id));
-        Mail::sendMail('Forgot Password!', "<a href='http://localhost/change-password.php?token=$token'>http://localhost/change-password.php?token=$token</a>", $email);
+        Mail::sendMail('Forgot Password!', "<a href='http://localhost/change-password.php?token=$token'>重置密码</a>", $email);
         header('Location: login.php');
         exit;
 }

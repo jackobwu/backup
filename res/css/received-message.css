@@ -158,6 +158,12 @@ nav input[type=submit] {
     text-decoration: none;
 }
 
+.message .email-sender {
+    width: 10%;
+    overflow: hidden;
+    float: left;
+}
+
 .message .email-content {
     margin-left: 5%;
 }

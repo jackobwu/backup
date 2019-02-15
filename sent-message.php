@@ -5,6 +5,7 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $user_id = Login::isLoggedIn();
+    $user_name = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$user_id))[0]['username'];
     $messages = DB::query('SELECT * FROM messages WHERE sender_id=:user_id', array(':user_id'=>$user_id));
 } else {
     header("Location: login.php");
@@ -32,7 +33,7 @@ if (Login::isLoggedIn()) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
-                    <a href="recommend.php">发现</a>
+                    <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
@@ -47,13 +48,13 @@ if (Login::isLoggedIn()) {
                 <ul>
                     <li><a href="received-message.php">收件箱</a></li>
                     <li><a href="sent-message.php">发件箱</a></li>
-                    <li><a href="#">联系人</a></li>
+                    <li><a href="contact.php">联系人</a></li>
                 </ul>
             </div>
             <div class="main">
                 <?php foreach ($messages as $message) { ?>
                     <div class="message">
-                        <a href="#">jackob</a><a class="email-content" href="#"><?php echo $message[body] ?></a>
+                        <a href="index.php"><?php echo $user_name ?></a><a class="email-content" href="message.php?id=<?php echo $message['id'] ?>"><?php echo $message['body'] ?></a>
                     </div>
                 <?php } ?>
             </div>

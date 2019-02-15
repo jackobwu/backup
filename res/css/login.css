@@ -70,3 +70,18 @@ nav #logo {
     width: 75%;
     float: left;
 }
+
+/* Footer */
+
+footer {
+    position: fixed;
+    bottom: 1%;
+    left: 0;
+    right: 0;
+    text-align: center;
+}
+
+footer a {
+    text-decoration: none;
+    margin-right: 2%;
+}

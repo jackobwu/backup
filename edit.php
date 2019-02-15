@@ -117,7 +117,7 @@ if (isset($_POST['about_me'])) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
-                    <a href="recommend.php">发现</a>
+                    <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">

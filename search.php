@@ -1,10 +1,17 @@
 <?php
 
 include 'classes/DB.php';
+include 'classes/Login.php';
 
-if (isset($_GET['search']) && ($_GET['keyword'] !== "")) {
-    $keyword = $_GET['keyword'];
-    $results = DB::query('SELECT username FROM users WHERE username LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+if (Login::isLoggedIn()) {
+    $logged_id = Login::isLoggedIn();
+    if (isset($_GET['search']) && ($_GET['keyword'] !== "")) {
+        $keyword = $_GET['keyword'];
+        $results = DB::query('SELECT username FROM users WHERE username LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+    }
+} else {
+    header("Location: /login.php");
+    exit;
 }
 
 ?>
@@ -26,7 +33,7 @@ if (isset($_GET['search']) && ($_GET['keyword'] !== "")) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
-                    <a href="recommend.php">推荐</a>
+                    <a href="discover.php">推荐</a>
                     <a href="index.php">首页</a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
@@ -40,22 +47,23 @@ if (isset($_GET['search']) && ($_GET['keyword'] !== "")) {
             <div class="sidebar">
                 <ul>
                     <li><a href="edit.php">编辑资料</a></li>
-                    <li><a href="#">我的朋友</a></li>
-                    <li><a href="#">我的消息</a></li>
+                    <li><a href="friends.php">我的朋友</a></li>
+                    <li><a href="received-message.php">我的消息</a></li>
                 </ul>
             </div>
             <div class="main">
             <?php if ($keyword) { 
                 foreach ($results as $result) {
                 $username = $result['username'];
-                $userid = DB::query('SELECT id FROM users WHERE username=:username', array(':username'=>$username))[0]['id']; ?>
+                $user_id = DB::query('SELECT id FROM users WHERE username=:username', array(':username'=>$username))[0]['id']; 
+                if ($user_id != $logged_id ) {?>
                 <a class="card" href="profile.php?id=<?php echo $userid ?>">
                     <img src="res/profile.png" alt="Avatar" style="width:100%">
                     <div class="content">
                         <h4><b><?php echo $username ?></b></h4> 
                     </div>
                 </a>
-            <?php } }; ?>
+            <?php }} }; ?>
             </div>
         </div>
     </body>

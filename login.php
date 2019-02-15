@@ -56,14 +56,19 @@ if (isset($_POST['login'])) {
                 <a href="forgot-password">忘记了密码?</a>
             </div>
             <div class="storyboard">
-                <h2>欢迎来到有朋</h2>
-                <p>有朋是一个轻量级的社交网络，用来联络你的朋友和发现身边的人</p>
+                <h2>欢迎来到有朋 （Beta版）</h2>
+                <p>有朋是一个实名制的社交网络，用来联络你的朋友和发现身边的人</p>
                 <p>你可以利用有朋:</p>
                 <p>通过姓名来搜索你认识的朋友</p>
                 <p>找到和你同在一个地区，公司和学校的人</p>
                 <p>查找朋友的朋友</p>
-
             </div>
-        </div>
+        <div>
+        <footer>
+            <a href="beta.php">测试版</a>
+            <a href="about.php">关于有朋</a>
+            <a href="mailto:jackobwu@gmail.com">联系我吧</a>
+            <p>有朋 © 2019</p>
+        </footer>
     </body>
 </html>

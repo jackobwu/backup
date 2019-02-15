@@ -36,21 +36,27 @@ if (isset($_GET['id'])) {
         }
 
         if (Login::isLoggedIn()) {
-            if (isset($_POST['request'])) {
-                if (!DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id', array(':friend_id'=>$userid)) && !DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id', array(':user_id'=>$userid)) ) {
-                    $user_id=Login::isLoggedIn();
-                    DB::query('INSERT INTO friendship VALUES (NULL, :user_id, :friend_id, :accept)', array(':user_id'=>$user_id, ':friend_id'=>$userid, ':accept'=>0));
+            $hasRequest = DB::query('SELECT id FROM friendship WHERE (friend_id=:friend_id AND user_id=:user_id) OR (user_id=:friend_id AND friend_id=:user_id)', array(':friend_id'=>$userid, ':user_id'=>$logged_userid))[0]['id'];
+            $isMyFriend = DB::query('SELECT accept FROM friendship WHERE friend_id=:friend_id AND user_id=:user_id', array(':friend_id'=>$userid, ':user_id'=>$logged_userid))[0]['accept'];
+            $isHisFriend = DB::query('SELECT accept FROM friendship WHERE friend_id=:friend_id AND user_id=:user_id', array(':friend_id'=>$logged_userid, ':user_id'=>$userid))[0]['accept'];
+            if ( $hasRequest ) {
+                if ($isMyFriend ==1 || $isHisFriend == 1) {
+                    $isFriend = true;
+                } else {
+                    $isFriend = false;
+                }
+            } else {
+                if (isset($_POST['request'])) {
+                    DB::query('INSERT INTO friendship VALUES (NULL, :user_id, :friend_id, :accept, DEFAULT, DEFAULT)', array(':user_id'=>$logged_userid, ':friend_id'=>$userid, ':accept'=>0));
                     header('Location: friends-request.php');
                     exit;
-                } 
-            }
+                    }
+            }    
+        } else {
+            header("Location: index.php");
+            exit;
         }
-    } else {
-        header("Location: index.php");
-        exit;
     }
-    
-    
 }
 
 ?>
@@ -72,7 +78,7 @@ if (isset($_GET['id'])) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
-                    <a href="recommend.php">推荐</a>
+                    <a href="discover.php">推荐</a>
                     <a href="index.php">首页</a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
@@ -101,12 +107,23 @@ if (isset($_GET['id'])) {
                     <?php } ?>  
                 </div>
                 <div class="connection">
-                    <form action="profile.php?id=<?php echo $userid ?>" method="post">
-                        <input type=submit name="request" value="加为好友">
-                    </form>
+                    <?php if ($isFriend) { ?>
+                        <form action="#" method="post">
+                            <input type=submit name="request" value="已经是好友" disabled>
+                        </form>
+                    <?php } elseif ($hasRequest) {?>
+                        <form action="#" method="post">
+                            <input type=submit name="request" value="已经发送好友申请" disabled>
+                        </form>
+                    <?php } else { ?>
+                        <form action="profile.php?id=<?php echo $userid ?>" method="post">
+                            <input type=submit name="request" value="加为好友">
+                        </form>
+                    <?php } ?>
                     <form action="write-message.php?receiver=<?php echo $userid ?>" method="post">
                         <input type=submit name="message" value="发送私信">
                     </form>
+                    
                 </div>
                 <div class="mutual-friends">
                     <div class="title">共同好友</div>

@@ -83,6 +83,12 @@ if (isset($_POST['register'])) {
 
             </div>
         </div>
+        <footer>
+            <a href="beta.php">测试版</a>
+            <a href="about.php">关于有朋</a>
+            <a href="mailto:jackobwu@gmail.com">联系我吧</a>
+            <p>有朋 © 2019</p>
+        </footer>
     </body>
 </html>
 

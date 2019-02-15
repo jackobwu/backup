@@ -134,20 +134,66 @@ nav input[type=submit] {
     text-decoration: none;
 }
 
-/* Email */
+/* Profile */
 
 .main {
     width: 85%;
     float: left;
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
-.main input[type=submit] {
-    background-color: #1c8adb;
-    border: none;
-    color: white;
-    text-decoration: none;
-    margin: 4px 2px;
-    font-size: 15px;
-    width: 10%;
+/* Card */
+
+.card {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+    max-width: 200px;
+    max-height: 300px;
+    background-color: #fff;
+    float: left;
 }
+
+.card img {
+    display: block;
+    height: 220px;
+    width: 200px;;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+}
+
+.content {
+    padding: 2px 16px;
+}
+
+.showFriends a {
+    text-decoration: none;
+}
+
+
+/**
+*Pagination 
+*/
+
+.pagination {
+    position: absolute;
+    bottom: 5%;
+    margin-left: 15%;
+}
+
+.pagination a {
+    color: black;
+    padding: 8px 16px;
+    text-decoration: none;
+    transition: background-color .3s;
+}
+
+.pagination a.active {
+    background-color: dodgerblue;
+    color: white;
+}
+

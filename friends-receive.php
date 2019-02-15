@@ -9,6 +9,7 @@ if (Login::isLoggedIn()) {
     if (isset($_POST['agree'])) {
         $request_id = DB::query('SELECT id from users where username=:username', array(':username'=>$_POST['request_name']))[0]['id']; 
         DB::query('UPDATE friendship SET accept=1 WHERE friend_id=:receive_id AND user_id=:request_id', array(':receive_id'=>$user_id, ':request_id'=>$request_id));
+        DB::query('INSERT INTO friendship VALUES (NULL, :user_id, :friend_id, :accept, DEFAULT, DEFAULT)', array(':user_id'=>$user_id, ':friend_id'=>$request_id, ':accept'=>1));
         header("Refresh:0");
     } else if (isset($_POST['disagree'])) {
         $request_id = DB::query('SELECT id from users where username=:username', array(':username'=>$_POST['request_name']))[0]['id']; 
@@ -36,7 +37,7 @@ if (Login::isLoggedIn()) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
-                    <a href="recommend.php">发现</a>
+                    <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
