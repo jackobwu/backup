@@ -12,6 +12,8 @@ if (Login::isLoggedIn()) {
     if (isset($_POST['send'])) {
         if (DB::query('SELECT id FROM users WHERE id=:receiver', array(':receiver'=>$_GET['receiver']))) {
             DB::query("INSERT INTO messages VALUES (NULL, :body, :sender, :receiver, 0, DEFAULT)", array(':body'=>$_POST['body'], ':sender'=>$user_id, ':receiver'=>$_GET['receiver']));
+            header("Location: sent-message.php");
+            exit;
         }
     }
 } else {
@@ -69,7 +71,7 @@ if (Login::isLoggedIn()) {
                 <?php if ($_GET['receiver']) { ?>   
                 <form action="message?receiver=<?php echo $_GET['receiver'] ?>" method="post">
                     <textarea name="body" rows="8" cols="80"></textarea><br>
-                    <input type="submit" name="send" value="回复">
+                    <input type="submit" name="send" value="发送">
                 </form>
                 <?php } ?>
             </div>

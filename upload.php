@@ -27,7 +27,7 @@ if (isset($_POST['upload'])) {
         if($check !== false) {
             $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
             if($imageFileType == "jpg" || $imageFileType == "png" || $imageFileType == "jpeg" || $imageFileType == "gif" ) {
-                if ($_FILES["profileimg"]["size"] < 500000) {
+                if ($_FILES["profileimg"]["size"] < 2000000) {
                     move_uploaded_file($_FILES["profileimg"]["tmp_name"], $target_file);
                     $temp = explode("/", $target_file);
                     $filename = $temp[2];
@@ -82,7 +82,7 @@ if (isset($_POST['upload'])) {
             <div class="sidebar">
                 <ul>
                     <li><a href="edit.php">编辑资料</a></li>
-                    <li><a active href="upload.php">上传头像</a></li>
+                    <li><a active href="upload.php" style="color:#1c8adb">上传头像</a></li>
                     <li><a href="friends.php">我的朋友</a></li>
                     <li><a href="received-message.php">我的私信</a></li>
                 </ul>

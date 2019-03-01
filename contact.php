@@ -5,10 +5,8 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $user_id = Login::isLoggedIn();
-    if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id)) || DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$user_id)) ) {
-        $friendOfMine = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id));
-        $meAsFriend = DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$user_id));
-        $friends = array_merge($friendOfMine, $meAsFriend);  
+    if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id))) {
+        $friends = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id));
         //Pagination
         $totalNumbers = count($friends); 
         $limit = 20;
@@ -65,7 +63,7 @@ if (Login::isLoggedIn()) {
                 <ul>
                     <li><a href="received-message.php">收件箱</a></li>
                     <li><a href="sent-message.php">发件箱</a></li>
-                    <li><a href="contact.php">联系人</a></li>
+                    <li><a href="contact.php" style="color:#1c8adb">联系人</a></li>
                 </ul>
             </div>
             <div class="main">

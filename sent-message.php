@@ -5,8 +5,8 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $user_id = Login::isLoggedIn();
-    $user_name = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$user_id))[0]['username'];
     $messages = DB::query('SELECT * FROM messages WHERE sender_id=:user_id', array(':user_id'=>$user_id));
+    $user_name = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$user_id))[0]['username'];
 } else {
     header("Location: login.php");
     exit;
@@ -46,15 +46,16 @@ if (Login::isLoggedIn()) {
         <div class="container">
             <div class="sidebar">
                 <ul>
-                    <li><a href="received-message.php">收件箱</a></li>
-                    <li><a href="sent-message.php">发件箱</a></li>
+                    <li><a href="received-message.php" >收件箱</a></li>
+                    <li><a href="sent-message.php" style="color:#1c8adb">发件箱</a></li>
                     <li><a href="contact.php">联系人</a></li>
                 </ul>
             </div>
             <div class="main">
-                <?php foreach ($messages as $message) { ?>
+                <?php foreach ($messages as $message) { 
+                    $receiver = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$message['receiver_id']))[0]['username'];?>
                     <div class="message">
-                        <a href="index.php"><?php echo $user_name ?></a><a class="email-content" href="message.php?id=<?php echo $message['id'] ?>"><?php echo $message['body'] ?></a>
+                        <a href="index.php"><?php echo $receiver ?></a><a class="email-content" href="message.php?id=<?php echo $message['id'] ?>"><?php echo $message['body'] ?></a>
                     </div>
                 <?php } ?>
             </div>

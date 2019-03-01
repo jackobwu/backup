@@ -46,7 +46,7 @@ if (Login::isLoggedIn()) {
         <div class="container">
             <div class="sidebar">
                 <ul>
-                    <li><a href="received-message.php">收件箱</a></li>
+                    <li><a href="received-message.php" style="color:#1c8adb">收件箱</a></li>
                     <li><a href="sent-message.php">发件箱</a></li>
                     <li><a href="contact.php">联系人</a></li>
                 </ul>

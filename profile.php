@@ -29,10 +29,8 @@ if (isset($_GET['id'])) {
         $wechat = DB::query('SELECT wechat FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['wechat'];
         $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['qq'];
 
-        if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid)) || DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid)) ) {
-            $friendOfMine = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
-            $meAsFriend = DB::query('SELECT user_id FROM friendship WHERE friend_id=:friend_id AND accept=1', array(':friend_id'=>$userid));
-            $friends = array_merge($friendOfMine, $meAsFriend);
+        if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid))) {
+            $friends = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
         }
 
         if (Login::isLoggedIn()) {
@@ -120,7 +118,7 @@ if (isset($_GET['id'])) {
                             <input type=submit name="request" value="加为好友">
                         </form>
                     <?php } ?>
-                    <form action="write-message.php?receiver=<?php echo $userid ?>" method="post">
+                    <form action="message.php?receiver=<?php echo $userid ?>" method="post">
                         <input type=submit name="message" value="发送私信">
                     </form>
                     

@@ -57,7 +57,7 @@ if (Login::isLoggedIn()) {
                 $username = $result['username'];
                 $user_id = DB::query('SELECT id FROM users WHERE username=:username', array(':username'=>$username))[0]['id']; 
                 if ($user_id != $logged_id ) {?>
-                <a class="card" href="profile.php?id=<?php echo $userid ?>">
+                <a class="card" href="profile.php?id=<?php echo $user_id ?>">
                     <img src="res/profile.png" alt="Avatar" style="width:100%">
                     <div class="content">
                         <h4><b><?php echo $username ?></b></h4> 

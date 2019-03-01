@@ -35,25 +35,12 @@ if (isset($_POST['foundation'])) {
     $newbirthday = $_POST['birthday'];
     $newhometown = $_POST['hometown'];
     $newlivein = $_POST['livein'];
-    if (strlen($newusername) >= 3 && strlen($newusername) <= 32) {
-        if (preg_match('/[a-zA-Z0-9_]+/', $newusername)) {
-            if (filter_var($newemail, FILTER_VALIDATE_EMAIL)) {
-                if (!DB::query('SELECT email FROM users WHERE email=:email', array(':email'=>$newemail))) {
-                    DB::query('UPDATE users SET username=:username, email=:email, gender=:gender, birthday=:birthday, hometown=:hometown, livein=:livein WHERE id=:userid', array(':username'=>$newusername, ':email'=>$newemail, 'gender'=>$newgender, ':userid'=>$userid, ':birthday'=>$newbirthday, ':hometown'=>$newhometown, ':livein'=>$newlivein));
-                    header("Refresh:0");
-                } else {
-                    echo 'Email was in used';
-                }
-            } else {
-                echo 'Invalid Email';
-            }
+    if (strlen($newusername) >= 3 && strlen($newusername) <= 255) {
+        DB::query('UPDATE users SET username=:username, email=:email, gender=:gender, birthday=:birthday, hometown=:hometown, livein=:livein WHERE id=:userid', array(':username'=>$newusername, ':email'=>$newemail, 'gender'=>$newgender, ':userid'=>$userid, ':birthday'=>$newbirthday, ':hometown'=>$newhometown, ':livein'=>$newlivein));
+        header("Refresh:0");
         } else {
             echo 'Invalid username';
         }
-    } else {
-        echo 'Invalid username';
-    }
-
 }
 
 if (isset($_POST['school'])) {
@@ -130,7 +117,7 @@ if (isset($_POST['about_me'])) {
         <div class="container">
             <div class="sidebar">
                 <ul>
-                    <li><a href="edit.php">编辑资料</a></li>
+                    <li><a href="edit.php" style="color:#1c8adb">编辑资料</a></li>
                     <li><a href="upload.php">上传头像</a></li>
                     <li><a href="friends.php">我的朋友</a></li>
                     <li><a href="received-message.php">我的私信</a></li>
@@ -144,20 +131,21 @@ if (isset($_POST['about_me'])) {
                             <label>姓名:</label>
                             <input type="text" name="username" value="<?php echo $username ?>">
                             <br>
-                            <label>电子邮箱:</label>
-                            <input type="text" name="email" value="<?php echo $email ?>">
-                            <br>
+                            <!-- <label>电子邮箱:</label>
+                            <input type="email" name="email" value="<?php echo $email ?>" disabled>
+                            <br> -->
                             <label>性别:</label>
-                            <input type="text" name="gender" value="<?php echo $gender ?>">
-                            <br>
-                            <label>生日:</label>
-                            <input type="text" name="birthday" value="<?php echo $birthday ?>">
+                            <input id="gender" type="radio" name="gender" value="男" <?php if($gender == "男"){ echo "checked"; } ?>><small>男</small>
+                            <input type="radio" name="gender" value="女" <?php if($gender == "女"){ echo "checked"; } ?> ><small>女</small>
                             <br>
                             <label>家乡:</label>
                             <input type="text" name="hometown" value="<?php echo $hometown ?>">
                             <br>
                             <label>所在地:</label>
                             <input type="text" name="livein" value="<?php echo $livein ?>">
+                            <br>
+                            <label>生日:</label>
+                            <input type="date" name="birthday" value=<?php echo $birthday ?>>
                             <br>
                             <input type="submit" name="foundation" value="修改">
                         </form>
@@ -197,12 +185,25 @@ if (isset($_POST['about_me'])) {
                     <div class="information">
                         <div class="title">感情状况</div>
                             <form action="edit.php" method="post">
-                                <label>感情状态:</label>
-                                <input type="text" name="relationship" value="<?php echo $relationship ?>">
-                                <br>
                                 <label>想寻找:</label>
-                                <input type="text" name="lookfor" value="<?php echo $lookfor ?>">
-                                <br><br>
+                                    <input type="text" name="lookfor" value="<?php echo $lookfor ?>">
+                                <br>
+                                <label>感情状态:</label>
+                                <!--<input type="text" name="relationship" value="">-->
+                                <select name="relationship">
+                                    <option value="单身" <?php if($relationship == "单身"){ echo "selected"; }else{ echo ""; }?> >单身</option>
+                                    <option value="暧昧期" <?php if($relationship == "暧昧期"){ echo "selected"; }else{ echo ""; }?> >暧昧期</option>
+                                    <option value="恋爱中" <?php if($relationship == "恋爱中"){ echo "selected"; }else{ echo ""; }?> >恋爱中</option>
+                                    <option value="已婚" <?php if($relationship == "已婚"){ echo "selected"; }else{ echo ""; }?> >已婚</option>
+                                    <option value="已婚" <?php if($relationship == "有同性伴侣"){ echo "selected"; }else{ echo ""; }?> >有同性伴侣</option>
+                                    <option value="分手" <?php if($relationship == "分手"){ echo "selected"; }else{ echo ""; }?> >分手</option>
+                                    <option value="离异" <?php if($relationship == "离异"){ echo "selected"; }else{ echo ""; }?> >离异</option>
+                                    <option value="比较复杂" <?php if($relationship == "比较复杂"){ echo "selected"; }else{ echo ""; }?> >比较复杂</option>
+                                    <option value="丧偶" <?php if($relationship == "丧偶"){ echo "selected"; }else{ echo ""; }?> >丧偶</option>
+                                    <option value="交往中，但保留交友空间" <?php if($relationship == "交往中，但保留交友空间"){ echo "selected"; }else{ echo ""; }?> >交往中，但保留交友空间</option>
+                                    <option value="---" <?php if($relationship == "---"){ echo "selected"; }else{ echo ""; }?> >---</option>
+                                </select>
+                                <br>
                                 <input type="submit" name="relation" value="修改">
                             </form>
                     </div>     

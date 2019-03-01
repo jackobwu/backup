@@ -45,7 +45,7 @@ if (Login::isLoggedIn()) {
             <div class="sidebar">
                 <ul>
                     <li><a href="friends-receive.php">待处理申请</a></li>
-                    <li><a href="friends-request.php">我的好友申请</a></li>
+                    <li><a href="friends-request.php" style="color:#1c8adb">我的好友申请</a></li>
                     <li><a href="friends.php">好友列表</a></li>
                     <li><a href="received-message.php">我的私信</a></li>
                 </ul>

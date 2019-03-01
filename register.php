@@ -9,9 +9,8 @@ if (isset($_POST['register'])) {
     $password = $_POST['password'];
     $email = $_POST['email'];
     if (!DB::query('SELECT username FROM users WHERE username=:username', array(':username'=>$username))) {
-        if (strlen($username) >= 3 && strlen($username) <= 32) {
-            if (preg_match('/[a-zA-Z0-9_]+/', $username)) {
-                if (strlen($password) >= 6 && strlen($password) <= 60) {
+        if (strlen($username) >= 3 && strlen($username) <= 255) {
+                if (strlen($password) >= 6 && strlen($password) <= 64) {
                     if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                         if (!DB::query('SELECT email FROM users WHERE email=:email', array(':email'=>$email))) {
                             DB::query('INSERT INTO users VALUES (NULL, :username, :email, :password, DEFAULT, DEFAULT, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)', array(':username'=>$username, ':email'=>$email, ':password'=>password_hash($password, PASSWORD_BCRYPT)));
@@ -27,14 +26,11 @@ if (isset($_POST['register'])) {
                     $password_error = '密码长度符！';
                 }
             } else {
-                $name_error = '无效的名字';
+                $name_error = '名字长度不符';
             }
         } else {
-            $name_error = '名字长度不符';
+            $name_error = '名字已经被使用!';
         }
-    } else {
-        $name_error = '名字已经被使用!';
-    }
 }
 ?>
 

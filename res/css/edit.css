@@ -159,6 +159,18 @@ nav input[type=submit] {
     margin-right: 50%;
 }
 
+
+
+.information input[type="email"] {
+    float: right;
+    margin-right: 50%;
+}
+
+.information input[type="date"] {
+    float: right;
+    margin-right: 48%;
+}
+
 .information input[type=submit] {
     border: none;
     outline: none;
@@ -203,4 +215,16 @@ nav input[type=submit] {
 .aboutme textarea {
     margin-left: 40px;
     margin-bottom: 20px;
+}
+
+#gender {
+    margin-left: 10%;
+}
+
+small {
+    font-weight: 400;
+}
+
+select {
+    margin-left: 3%;
 }
