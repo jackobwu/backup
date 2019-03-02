@@ -8,9 +8,19 @@ if (isset($_GET['id'])) {
     $userid = $_GET['id'];
     if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid))) {
         $friends = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
-            
+        $totalNumbers = count($friends); 
+        $limit = 20;
+        $pages = ceil($totalNumbers / $limit);
+        $page = min($pages, filter_input(INPUT_GET, 'page', FILTER_VALIDATE_INT, array(
+            'options' => array(
+                'default'   => 1,
+                'min_range' => 1,
+            ),
+        )));
+        $offset = ($page - 1)  * $limit;
+        $friendsOfPage = array_slice($friends, $offset, $limit);
     } else {
-        $friends = [];
+        $friendsOfPage = [];
     }
 } else {
     if (Login::isLoggedIn()) {

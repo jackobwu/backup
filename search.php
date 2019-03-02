@@ -5,7 +5,7 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $logged_id = Login::isLoggedIn();
-    if (isset($_GET['search']) && ($_GET['keyword'] !== "")) {
+    if (isset($_GET['search']) && ($_GET['keyword'] != "")) {
         $keyword = $_GET['keyword'];
         $results = DB::query('SELECT username FROM users WHERE username LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
     }

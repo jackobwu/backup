@@ -4,6 +4,10 @@
 
 include 'classes/DB.php';
 
+$email_error = "";
+$name_error = "";
+$password_error = "";
+
 if (isset($_POST['register'])) {
     $username = $_POST['lastname'].$_POST['firstname'];
     $password = $_POST['password'];
@@ -17,7 +21,7 @@ if (isset($_POST['register'])) {
                             header("Location: login.php");
                             exit;
                         } else {
-                            $mail_eerror = 'Email已经被注册!';
+                            $email_error = 'Email已经被注册!';
                         }
                     } else {
                         $email_error = 'Email格式不正确!';

@@ -22,12 +22,12 @@ class Mail {
             $mail->Port = 465;                                    // TCP port to connect to
 
             //Recipients
-            $mail->setFrom('jackob_xm@126.com', 'Upeng');
+            $mail->setFrom('jackob_xm@126.com', '有朋');
             $mail->addAddress($address);                          // Name is optional
 
             //Content
             $mail->isHTML(true);                                  // Set email format to HTML
-            $mail->Subject = $subject;
+            $mail->Subject = '=?UTF-8?B?' . base64_encode($subject) . '?=';
             $mail->Body    = $body;
 
             $mail->send();

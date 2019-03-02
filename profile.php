@@ -138,7 +138,7 @@ if (isset($_GET['id'])) {
                         <a href='profile.php?id=<?php echo $friends[1][0] ?>'><?php echo $friendName2 ?></a><br>
                         <a href='profile.php?id=<?php echo $friends[2][0] ?>'><?php echo $friendName3 ?></a><br>
 
-                    <a href="friends.php?id=<?php echo $userid; ?>">查看更多<a>
+                    <a href="their-friends.php?id=<?php echo $userid; ?>">查看更多<a>
 
                 </div>
             </div>

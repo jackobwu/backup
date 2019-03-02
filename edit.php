@@ -30,13 +30,12 @@ $about_me = DB::query('SELECT about_me FROM users WHERE id=:userid', array(':use
 
 if (isset($_POST['foundation'])) {
     $newusername = $_POST['username'];
-    $newemail = $_POST['email'];
     $newgender = $_POST['gender'];
     $newbirthday = $_POST['birthday'];
     $newhometown = $_POST['hometown'];
     $newlivein = $_POST['livein'];
     if (strlen($newusername) >= 3 && strlen($newusername) <= 255) {
-        DB::query('UPDATE users SET username=:username, email=:email, gender=:gender, birthday=:birthday, hometown=:hometown, livein=:livein WHERE id=:userid', array(':username'=>$newusername, ':email'=>$newemail, 'gender'=>$newgender, ':userid'=>$userid, ':birthday'=>$newbirthday, ':hometown'=>$newhometown, ':livein'=>$newlivein));
+        DB::query('UPDATE users SET username=:username, gender=:gender, birthday=:birthday, hometown=:hometown, livein=:livein WHERE id=:userid', array(':username'=>$newusername, 'gender'=>$newgender, ':userid'=>$userid, ':birthday'=>$newbirthday, ':hometown'=>$newhometown, ':livein'=>$newlivein));
         header("Refresh:0");
         } else {
             echo 'Invalid username';
@@ -131,9 +130,6 @@ if (isset($_POST['about_me'])) {
                             <label>姓名:</label>
                             <input type="text" name="username" value="<?php echo $username ?>">
                             <br>
-                            <!-- <label>电子邮箱:</label>
-                            <input type="email" name="email" value="<?php echo $email ?>" disabled>
-                            <br> -->
                             <label>性别:</label>
                             <input id="gender" type="radio" name="gender" value="男" <?php if($gender == "男"){ echo "checked"; } ?>><small>男</small>
                             <input type="radio" name="gender" value="女" <?php if($gender == "女"){ echo "checked"; } ?> ><small>女</small>

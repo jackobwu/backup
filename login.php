@@ -4,6 +4,9 @@
 
 include 'classes/DB.php';
 
+$password_error = "";
+$email_error = "";
+
 if (isset($_POST['login'])) {
     $email = $_POST['email'];
     $password = $_POST['password'];
@@ -53,7 +56,7 @@ if (isset($_POST['login'])) {
                 <p><?php echo $password_error ?></p>
                 <input type="submit" name="login" value="登入">
                 <br>
-                <a href="forgot-password">忘记了密码?</a>
+                <a href="forgot-password.php">忘记了密码?</a>
             </div>
             <div class="storyboard">
                 <h2>欢迎来到有朋 （Beta版）</h2>
