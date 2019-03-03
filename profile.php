@@ -3,59 +3,72 @@
 include 'classes/DB.php';
 include 'classes/Login.php';
 
-if (isset($_GET['id'])) {
-    $userid = $_GET['id'];
-    $logged_userid = Login::isLoggedIn();
-    if ($userid != $logged_userid ) {
+if (Login::isLoggedIn()) {
 
-        $username = DB::query('SELECT username FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['username'];
-        $created_at = DB::query('SELECT created_at FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['created_at'];
-        $updated_at = DB::query('SELECT updated_at FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['updated_at'];
-        $email = DB::query('SELECT email FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['email'];
-        $avatar = DB::query('SELECT avatar FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['avatar'];
-        $gender = DB::query('SELECT gender FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['gender'];
-        $birthday = DB::query('SELECT birthday FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['birthday'];
-        $hometown = DB::query('SELECT hometown FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['hometown'];
-        $livein = DB::query('SELECT livein FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['livein'];
-        $elementary_school = DB::query('SELECT elementary_school FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['elementary_school'];;
-        $junior_school = DB::query('SELECT junior_school FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['junior_school'];
-        $senior_school = DB::query('SELECT senior_school FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['senior_school'];
-        $university = DB::query('SELECT university FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['university'];
-        $profession = DB::query('SELECT profession FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['profession'];
-        $company = DB::query('SELECT company FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['company'];
-        $relationship = DB::query('SELECT relationship FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['relationship'];
-        $lookfor = DB::query('SELECT lookfor FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['lookfor'];
-        $mobile = DB::query('SELECT mobile FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['mobile'];
-        $wechat = DB::query('SELECT wechat FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['wechat'];
-        $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['qq'];
+    if (isset($_GET['id'])) {
+        $userid = $_GET['id'];
+        $logged_userid = Login::isLoggedIn();
+        if ($userid != $logged_userid ) {
 
-        if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid))) {
+            $username = DB::query('SELECT username FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['username'];
+            $created_at = DB::query('SELECT created_at FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['created_at'];
+            $updated_at = DB::query('SELECT updated_at FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['updated_at'];
+            $email = DB::query('SELECT email FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['email'];
+            $avatar = DB::query('SELECT avatar FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['avatar'];
+            $gender = DB::query('SELECT gender FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['gender'];
+            $birthday = DB::query('SELECT birthday FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['birthday'];
+            $hometown = DB::query('SELECT hometown FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['hometown'];
+            $livein = DB::query('SELECT livein FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['livein'];
+            $elementary_school = DB::query('SELECT elementary_school FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['elementary_school'];;
+            $junior_school = DB::query('SELECT junior_school FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['junior_school'];
+            $senior_school = DB::query('SELECT senior_school FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['senior_school'];
+            $university = DB::query('SELECT university FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['university'];
+            $profession = DB::query('SELECT profession FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['profession'];
+            $company = DB::query('SELECT company FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['company'];
+            $relationship = DB::query('SELECT relationship FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['relationship'];
+            $lookfor = DB::query('SELECT lookfor FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['lookfor'];
+            $mobile = DB::query('SELECT mobile FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['mobile'];
+            $wechat = DB::query('SELECT wechat FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['wechat'];
+            $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['qq'];
             $friends = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
-        }
 
-        if (Login::isLoggedIn()) {
-            $hasRequest = DB::query('SELECT id FROM friendship WHERE (friend_id=:friend_id AND user_id=:user_id) OR (user_id=:friend_id AND friend_id=:user_id)', array(':friend_id'=>$userid, ':user_id'=>$logged_userid))[0]['id'];
-            $isMyFriend = DB::query('SELECT accept FROM friendship WHERE friend_id=:friend_id AND user_id=:user_id', array(':friend_id'=>$userid, ':user_id'=>$logged_userid))[0]['accept'];
-            $isHisFriend = DB::query('SELECT accept FROM friendship WHERE friend_id=:friend_id AND user_id=:user_id', array(':friend_id'=>$logged_userid, ':user_id'=>$userid))[0]['accept'];
-            if ( $hasRequest ) {
-                if ($isMyFriend ==1 || $isHisFriend == 1) {
-                    $isFriend = true;
+            if ( DB::query('SELECT id FROM friendship WHERE (friend_id=:friend_id AND user_id=:user_id) OR (user_id=:friend_id AND friend_id=:user_id)', array(':friend_id'=>$userid, ':user_id'=>$logged_userid)) ) {
+                if (DB::query('SELECT accept FROM friendship WHERE friend_id=:friend_id AND user_id=:user_id', array(':friend_id'=>$userid, ':user_id'=>$logged_userid))) {
+                    $isMyFriend = DB::query('SELECT accept FROM friendship WHERE friend_id=:friend_id AND user_id=:user_id', array(':friend_id'=>$userid, ':user_id'=>$logged_userid))[0]['accept'];
+
+                    if ($isMyFriend = 1){
+                        $isFriend = true;
+                    } else {
+
+                        $isFriend = false;
+                    }
                 } else {
                     $isFriend = false;
                 }
             } else {
+                $isFriend = false;
                 if (isset($_POST['request'])) {
                     DB::query('INSERT INTO friendship VALUES (NULL, :user_id, :friend_id, :accept, DEFAULT, DEFAULT)', array(':user_id'=>$logged_userid, ':friend_id'=>$userid, ':accept'=>0));
                     header('Location: friends-request.php');
                     exit;
                     }
             }    
-        } else {
+
+            
+        }  else {
             header("Location: index.php");
             exit;
         }
+    } else {
+        header("Location: index.php");
+        exit;
     }
+}  else {
+    header("Location: login.php");
+    exit;
 }
+
+
 
 ?>
 
@@ -129,16 +142,16 @@ if (isset($_GET['id'])) {
                 </div>
                 <div class="friends">
                     <div class="title">好友</div>
-                    <?php 
+                    <?php if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid))){
                         $friendName1 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[0][0]))[0]['username'];
                         $friendName2 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[1][0]))[0]['username'];
                         $friendName3 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[2][0]))[0]['username'];
-                        ?>
+                    } else { $friendName1 = ""; $friendName2 = ""; $friendName3 = ""; }?>
                         <a href='profile.php?id=<?php echo $friends[0][0] ?>'><?php echo $friendName1 ?></a><br>
                         <a href='profile.php?id=<?php echo $friends[1][0] ?>'><?php echo $friendName2 ?></a><br>
                         <a href='profile.php?id=<?php echo $friends[2][0] ?>'><?php echo $friendName3 ?></a><br>
 
-                    <a href="their-friends.php?id=<?php echo $userid; ?>">查看更多<a>
+                    <a href="friends.php?id=<?php echo $userid; ?>">查看更多<a>
 
                 </div>
             </div>
