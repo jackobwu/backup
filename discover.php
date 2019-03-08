@@ -5,9 +5,7 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $user_id = Login::isLoggedIn();
-    $recommendFriends = DB::query('SELECT y.friend_id  FROM friendship x LEFT JOIN friendship y ON y.user_id = x.friend_id AND y.friend_id <> x.user_id  LEFT JOIN friendship z ON z.friend_id = y.friend_id AND z.user_id = x.user_id WHERE x.user_id = :user_id AND z.user_id IS NULL GROUP BY y.friend_id', array(':user_id'=>$user_id));
-    //print_r($recommendFriends[0]['friend_id']) ;
-    //die;
+    $recommendFriends = DB::query('SELECT y.friend_id  FROM friendship x LEFT JOIN friendship y ON y.user_id = x.friend_id AND y.friend_id <> x.user_id AND x.accept=1 LEFT JOIN friendship z ON z.friend_id = y.friend_id AND z.user_id = x.user_id WHERE x.user_id = :user_id AND z.user_id IS NULL GROUP BY y.friend_id', array(':user_id'=>$user_id));
     if ($recommendFriends[0]['friend_id']) {
         $totalNumbers = count($recommendFriends); 
         $limit = 20;
@@ -71,12 +69,12 @@ if (Login::isLoggedIn()) {
                 <?php if ($friendsOfPage != null) {
                     foreach ($friendsOfPage as $friend) {   
                     $discover = DB::query('SELECT * FROM users WHERE id=:id', array(':id'=>$friend[0]))[0];?>
-                    <div class="card">
+                    <a href="profile.php?id=<?php echo $discover['id'] ?>" class="card">
                         <img src="res/profile.png" alt="Avatar" style="width:100%">
                         <div class="content">
                             <h4><b><?php echo $discover['username'] ?></b></h4> 
                         </div>
-                    </div>
+                    </a>
                 <?php }} ?>
                 <?php if ($pages > 1) { ?>
                 <div class="pagination">

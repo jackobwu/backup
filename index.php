@@ -7,48 +7,72 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $user_id = Login::isLoggedIn();
-    $username = DB::query('SELECT username FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['username'];
-    $created_at = DB::query('SELECT created_at FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['created_at'];
-    $updated_at = DB::query('SELECT updated_at FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['updated_at'];
-    $avatar = DB::query('SELECT avatar FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['avatar'];
-    $email = DB::query('SELECT email FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['email'];
-    $gender = DB::query('SELECT gender FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['gender'];
-    $birthday = DB::query('SELECT birthday FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['birthday'];
-    $hometown = DB::query('SELECT hometown FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['hometown'];
-    $livein = DB::query('SELECT livein FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['livein'];
-    $elementary_school = DB::query('SELECT elementary_school FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['elementary_school'];;
-    $junior_school = DB::query('SELECT junior_school FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['junior_school'];
-    $senior_school = DB::query('SELECT senior_school FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['senior_school'];
-    $university = DB::query('SELECT university FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['university'];
-    $profession = DB::query('SELECT profession FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['profession'];
-    $company = DB::query('SELECT company FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['company'];
-    $relationship = DB::query('SELECT relationship FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['relationship'];
-    $lookfor = DB::query('SELECT lookfor FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['lookfor'];
-    $mobile = DB::query('SELECT mobile FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['mobile'];
-    $wechat = DB::query('SELECT wechat FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['wechat'];
-    $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['qq'];
-    $about_me = DB::query('SELECT about_me FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['about_me'];
+    if ( DB::query('SELECT username, email, password FROM users WHERE id=:id', array(':id'=>$user_id)) ) {
+        $username = DB::query('SELECT username FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['username'];
+        $created_at = DB::query('SELECT created_at FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['created_at'];
+        $updated_at = DB::query('SELECT updated_at FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['updated_at'];
+        $avatar = DB::query('SELECT avatar FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['avatar'];
+        $email = DB::query('SELECT email FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['email'];
+        $gender = DB::query('SELECT gender FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['gender'];
+        $birthday = DB::query('SELECT birthday FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['birthday'];
+        $hometown = DB::query('SELECT hometown FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['hometown'];
+        $livein = DB::query('SELECT livein FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['livein'];
+        $elementary_school = DB::query('SELECT elementary_school FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['elementary_school'];;
+        $junior_school = DB::query('SELECT junior_school FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['junior_school'];
+        $senior_school = DB::query('SELECT senior_school FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['senior_school'];
+        $university = DB::query('SELECT university FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['university'];
+        $profession = DB::query('SELECT profession FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['profession'];
+        $company = DB::query('SELECT company FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['company'];
+        $relationship = DB::query('SELECT relationship FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['relationship'];
+        $lookfor = DB::query('SELECT lookfor FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['lookfor'];
+        $mobile = DB::query('SELECT mobile FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['mobile'];
+        $wechat = DB::query('SELECT wechat FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['wechat'];
+        $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['qq'];
+        $about_me = DB::query('SELECT about_me FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['about_me'];
 
-    if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id))) {
-        $friends = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id));
-        $numOfFriends = count($friends);
-        if ($numOfFriends = 1) {
-            $friendName1 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[0][0]))[0]['username'];
+        if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id))) {
+            $friends = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id));
+            $numOfFriends = count($friends);
+            if ($numOfFriends = 1) {
+                $friendName1 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[0][0]))[0]['username'];
+                $friendName2 = "";
+                $friendName3 = "";
+            } elseif ($numOfFriends = 2) {
+                $friendName1 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[0][0]))[0]['username'];
+                $friendName2 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[1][0]))[0]['username'];
+                $friendName3 = "";
+            } elseif ($numOfFriends >= 3) {
+                $friendName1 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[0][0]))[0]['username'];
+                $friendName2 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[1][0]))[0]['username'];
+                $friendName3 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[2][0]))[0]['username'];
+            } 
+        } else {
+            $friendName1 = "";
             $friendName2 = "";
             $friendName3 = "";
-        } elseif ($numOfFriends = 2) {
-            $friendName1 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[0][0]))[0]['username'];
-            $friendName2 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[1][0]))[0]['username'];
-            $friendName3 = "";
-        } elseif ($numOfFriends >= 3) {
-            $friendName1 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[0][0]))[0]['username'];
-            $friendName2 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[1][0]))[0]['username'];
-            $friendName3 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[2][0]))[0]['username'];
-        } 
-    } else {
-        $friendName1 = "";
-        $friendName2 = "";
-        $friendName3 = "";
+        }
+    }else {
+        $username = '';
+        $created_at = '';
+        $updated_at = '';
+        $avatar = '';
+        $email = '';
+        $gender = '';
+        $birthday = '';
+        $hometown = '';
+        $livein = '';
+        $elementary_school = '';
+        $junior_school = '';
+        $senior_school = '';
+        $university = '';
+        $profession = '';
+        $company = '';
+        $relationship = '';
+        $lookfor = '';
+        $mobile = '';
+        $wechat = '';
+        $qq = '';
+        $about_me = '';
     }
 } else {
     header("Location: /login.php");
