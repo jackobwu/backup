@@ -33,20 +33,14 @@ if (Login::isLoggedIn()) {
             $friends = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
 
             if ( DB::query('SELECT id FROM friendship WHERE (friend_id=:friend_id AND user_id=:user_id) OR (user_id=:friend_id AND friend_id=:user_id)', array(':friend_id'=>$userid, ':user_id'=>$logged_userid)) ) {
-                if (DB::query('SELECT accept FROM friendship WHERE friend_id=:friend_id AND user_id=:user_id', array(':friend_id'=>$userid, ':user_id'=>$logged_userid))) {
-                    $isMyFriend = DB::query('SELECT accept FROM friendship WHERE friend_id=:friend_id AND user_id=:user_id', array(':friend_id'=>$userid, ':user_id'=>$logged_userid))[0]['accept'];
-
-                    if ($isMyFriend = 1){
-                        $isFriend = true;
-                    } else {
-
-                        $isFriend = false;
-                    }
+                $isFriend = DB::query('SELECT accept FROM friendship WHERE (friend_id=:friend_id AND user_id=:user_id) OR (user_id=:friend_id AND friend_id=:user_id)', array(':friend_id'=>$userid, ':user_id'=>$logged_userid))[0]['accept'];
+                if ($isFriend == 0) {
+                    $hasRequest = 1;
                 } else {
-                    $isFriend = false;
+                    $hasRequest = 0;
                 }
             } else {
-                $isFriend = false;
+                $isFriend = 0;
                 if (isset($_POST['request'])) {
                     DB::query('INSERT INTO friendship VALUES (NULL, :user_id, :friend_id, :accept, DEFAULT, DEFAULT)', array(':user_id'=>$logged_userid, ':friend_id'=>$userid, ':accept'=>0));
                     header('Location: friends-request.php');
@@ -89,7 +83,7 @@ if (Login::isLoggedIn()) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
-                    <a href="discover.php">推荐</a>
+                    <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
@@ -118,11 +112,11 @@ if (Login::isLoggedIn()) {
                     <?php } ?>  
                 </div>
                 <div class="connection">
-                    <?php if ($isFriend) { ?>
+                    <?php if ($isFriend == 1) { ?>
                         <form action="#" method="post">
                             <input type=submit name="request" value="已经是好友" disabled>
                         </form>
-                    <?php } elseif ($hasRequest) {?>
+                    <?php } elseif ($hasRequest == 1) {?>
                         <form action="#" method="post">
                             <input type=submit name="request" value="已经发送好友申请" disabled>
                         </form>

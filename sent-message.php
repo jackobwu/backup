@@ -55,7 +55,7 @@ if (Login::isLoggedIn()) {
                 <?php foreach ($messages as $message) { 
                     $receiver = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$message['receiver_id']))[0]['username'];?>
                     <div class="message">
-                        <a href="index.php"><?php echo $receiver ?></a><a class="email-content" href="message.php?id=<?php echo $message['id'] ?>"><?php echo $message['body'] ?></a>
+                        <a href="profile.php?id=<?php echo $message['receiver_id'] ?>"><?php echo $receiver ?></a><a class="email-content" href="message.php?id=<?php echo $message['id'] ?>"><?php echo $message['body'] ?></a>
                     </div>
                 <?php } ?>
             </div>

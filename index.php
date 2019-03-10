@@ -7,6 +7,27 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $user_id = Login::isLoggedIn();
+    $username = '';
+    $created_at = '';
+    $updated_at = '';
+    $avatar = '';
+    $email = '';
+    $gender = '';
+    $birthday = '';
+    $hometown = '';
+    $livein = '';
+    $elementary_school = '';
+    $junior_school = '';
+    $senior_school = '';
+    $university = '';
+    $profession = '';
+    $company = '';
+    $relationship = '';
+    $lookfor = '';
+    $mobile = '';
+    $wechat = '';
+    $qq = '';
+    $about_me = '';
     if ( DB::query('SELECT username, email, password FROM users WHERE id=:id', array(':id'=>$user_id)) ) {
         $username = DB::query('SELECT username FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['username'];
         $created_at = DB::query('SELECT created_at FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['created_at'];
@@ -33,11 +54,11 @@ if (Login::isLoggedIn()) {
         if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id))) {
             $friends = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id));
             $numOfFriends = count($friends);
-            if ($numOfFriends = 1) {
+            if ($numOfFriends == 1) {
                 $friendName1 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[0][0]))[0]['username'];
                 $friendName2 = "";
                 $friendName3 = "";
-            } elseif ($numOfFriends = 2) {
+            } elseif ($numOfFriends == 2) {
                 $friendName1 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[0][0]))[0]['username'];
                 $friendName2 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[1][0]))[0]['username'];
                 $friendName3 = "";
@@ -52,27 +73,7 @@ if (Login::isLoggedIn()) {
             $friendName3 = "";
         }
     }else {
-        $username = '';
-        $created_at = '';
-        $updated_at = '';
-        $avatar = '';
-        $email = '';
-        $gender = '';
-        $birthday = '';
-        $hometown = '';
-        $livein = '';
-        $elementary_school = '';
-        $junior_school = '';
-        $senior_school = '';
-        $university = '';
-        $profession = '';
-        $company = '';
-        $relationship = '';
-        $lookfor = '';
-        $mobile = '';
-        $wechat = '';
-        $qq = '';
-        $about_me = '';
+        header("Refresh:0");
     }
 } else {
     header("Location: /login.php");

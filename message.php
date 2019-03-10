@@ -69,7 +69,7 @@ if (Login::isLoggedIn()) {
                     </div>
                 <?php } ?>
                 <?php if ($_GET['receiver']) { ?>   
-                <form action="message?receiver=<?php echo $_GET['receiver'] ?>" method="post">
+                <form action="message.php?receiver=<?php echo $_GET['receiver'] ?>" method="post">
                     <textarea name="body" rows="8" cols="80"></textarea><br>
                     <input type="submit" name="send" value="发送">
                 </form>

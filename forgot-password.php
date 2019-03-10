@@ -9,7 +9,7 @@ if (isset($_POST['resetpassword'])) {
         $email = $_POST['email'];
         $user_id = DB::query('SELECT id FROM users WHERE email=:email', array(':email'=>$email))[0]['id'];
         DB::query('INSERT INTO password_tokens VALUES (NULL, :token, :user_id)', array(':token'=>sha1($token), ':user_id'=>$user_id));
-        Mail::sendMail('忘记密码!', "<a href='http://localhost/change-password.php?token=$token'>重置密码</a>", $email);
+        Mail::sendMail('忘记密码!', "<a href='http://upeng.fun/change-password.php?token=$token'>重置密码</a>", $email);
         header('Location: login.php');
         exit;
 }
