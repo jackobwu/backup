@@ -28,6 +28,7 @@ $wechat = DB::query('SELECT wechat FROM users WHERE id=:userid', array(':userid'
 $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['qq'];
 $about_me = DB::query('SELECT about_me FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['about_me'];
 
+
 if (isset($_POST['foundation'])) {
     $newusername = $_POST['username'];
     $newgender = $_POST['gender'];
@@ -135,13 +136,13 @@ if (isset($_POST['about_me'])) {
                             <input type="radio" name="gender" value="女" <?php if($gender == "女"){ echo "checked"; } ?> ><small>女</small>
                             <br>
                             <label>家乡:</label>
-                            <input type="text" name="hometown" value="<?php echo $hometown ?>">
+                            <input type="text" name="hometown" value="<?php echo $hometown ?>" >
                             <br>
-                            <label>所在地:</label>
+                            <label>现所在地:</label>
                             <input type="text" name="livein" value="<?php echo $livein ?>">
                             <br>
                             <label>生日:</label>
-                            <input type="date" name="birthday" value=<?php echo $birthday ?>>
+                            <input type="date" name="birthday" value=<?php if ($birthday == NULL ) { echo "0000-00-00"; } else { echo $birthday; } ?> required> 
                             <br>
                             <input type="submit" name="foundation" value="修改">
                         </form>

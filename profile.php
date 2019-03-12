@@ -31,6 +31,8 @@ if (Login::isLoggedIn()) {
             $wechat = DB::query('SELECT wechat FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['wechat'];
             $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['qq'];
             $friends = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid));
+            $about_me = DB::query('SELECT about_me FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['about_me'];
+            $mutual_friends = DB::query('SELECT x.friend_id FROM friendship x INNER JOIN friendship y ON x.friend_id = y.friend_id WHERE x.user_id = :x_user_id AND y.user_id = :y_user_id', array(':x_user_id'=>$logged_userid, ':y_user_id'=>$userid));
 
             if ( DB::query('SELECT id FROM friendship WHERE (friend_id=:friend_id AND user_id=:user_id) OR (user_id=:friend_id AND friend_id=:user_id)', array(':friend_id'=>$userid, ':user_id'=>$logged_userid)) ) {
                 $isFriend = DB::query('SELECT accept FROM friendship WHERE (friend_id=:friend_id AND user_id=:user_id) OR (user_id=:friend_id AND friend_id=:user_id)', array(':friend_id'=>$userid, ':user_id'=>$logged_userid))[0]['accept'];
@@ -130,9 +132,18 @@ if (Login::isLoggedIn()) {
                     </form>
                     
                 </div>
+                <div class="aboutme">
+                    <div class="title">关于我</div>
+                    <?php if ($about_me == NULL) { 
+                        echo "<p>他还未添加个人说明</p>";
+                    } else {
+                        echo "<p>".$about_me."</p>";
+                    } ?>
+
+                </div>
                 <div class="mutual-friends">
                     <div class="title">共同好友</div>
-                    <p>你们有0个共同好友</p>
+                    <p>你们有<?php echo count($mutual_friends); ?>个共同好友</p>
                 </div>
                 <div class="friends">
                     <div class="title">好友</div>
@@ -157,22 +168,25 @@ if (Login::isLoggedIn()) {
                     <p>加入时间: <?php echo $created_at ?></p>
                     <p>上次更新: <?php echo $updated_at ?></p>
                     <p>基础信息</p>
-                    <p>小学: <?php echo $elementary_school ?></p>
-                    <p>初中: <?php echo $junior_school ?></p>
-                    <p>高中: <?php echo $senior_school ?></p>
-                    <p>大学: <?php echo $university ?></p>
-                    <p>家乡: <?php echo $hometown ?></p>
+                    <p>小学: <a href="search.php?search=1&elementary_school=<?php echo $elementary_school ?>"><?php echo $elementary_school ?></a></p>
+                    <p>初中: <a href="search.php?search=1&junior_school=<?php echo $junior_school ?>"><?php echo $junior_school ?></a></p>
+                    <p>高中: <a href="search.php?search=1&senior_school=<?php echo $senior_school ?>"><?php echo $senior_school ?></a></p>
+                    <p>大学: <a href="search.php?search=1&university=<?php echo $university ?>"><?php echo $university ?></a></p>
+                    <p>家乡: <a href="search.php?search=1&hometown=<?php echo $hometown ?>"><?php echo $hometown ?></a></p>
+                    <p>居住地: <a href="search.php?search=1&livein=<?php echo $livein ?>"><?php echo $livein ?></a></p>
                     <p>性别: <?php echo $gender ?></p>
                     <p>生日: <?php echo $birthday ?></p>
+                    <p>工作信息</p>
+                    <p>职业: <a href="search.php?search=1&profession=<?php echo $profession ?>"><?php echo $profession ?></a></p>
+                    <p>公司: <a href="search.php?search=1&company=<?php echo $company ?>"><?php echo $company ?></a></p>
+                    <p>个人信息</p>
+                    <p>寻找: <?php echo $lookfor ?></p>
+                    <p>感情状况: <a href="search.php?search=1&relationship=<?php echo $relationship ?>"><?php echo $relationship ?></a></p>
                     <p>联系方式</p>
                     <p>手机: <?php echo $mobile ?></p>
                     <p>微信: <?php echo $wechat ?></p>
                     <p>qq: <?php echo $qq ?></p>
                     <p>电子邮件: <?php echo $email ?></p>
-                    <p>个人信息</p>
-                    <p>寻找: <?php echo $lookfor ?></p>
-                    <p>感情状况: <?php echo $relationship ?></p>
-                    <p>关于我:</p>
                 </div>
             </div>
             

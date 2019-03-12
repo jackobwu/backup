@@ -26,7 +26,7 @@ if (isset($_POST['resetpassword'])) {
                 <header>
                         <nav>
                                 <div class="container">
-                                <a href="register.php">注册</a>
+                                <a href="invite-register.php">注册</a>
                                 <a href="login.php">登入</a>
                                 <a id="logo" href="login.php">有朋</a>
                                 </div>

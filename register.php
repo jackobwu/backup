@@ -8,33 +8,40 @@ $email_error = "";
 $name_error = "";
 $password_error = "";
 
-if (isset($_POST['register'])) {
-    $username = $_POST['lastname'].$_POST['firstname'];
-    $password = $_POST['password'];
-    $email = $_POST['email'];
-    if (!DB::query('SELECT username FROM users WHERE username=:username', array(':username'=>$username))) {
-        if (strlen($username) >= 3 && strlen($username) <= 255) {
-                if (strlen($password) >= 6 && strlen($password) <= 64) {
-                    if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-                        if (!DB::query('SELECT email FROM users WHERE email=:email', array(':email'=>$email))) {
-                            DB::query('INSERT INTO users VALUES (NULL, :username, :email, :password, DEFAULT, DEFAULT, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)', array(':username'=>$username, ':email'=>$email, ':password'=>password_hash($password, PASSWORD_BCRYPT)));
-                            header("Location: login.php");
-                            exit;
+if (isset($_GET['token'])) {
+    $token = $_GET['token'];
+    if (DB::query('SELECT user_id FROM invite_tokens WHERE token=:token', array(':token'=>sha1($token)))) {
+        if (isset($_POST['register'])) {
+            $username = $_POST['lastname'].$_POST['firstname'];
+            $password = $_POST['password'];
+            $email = $_POST['email'];
+                if (strlen($username) >= 3 && strlen($username) <= 255) {
+                    if (strlen($password) >= 6 && strlen($password) <= 64) {
+                        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+                            if (!DB::query('SELECT email FROM users WHERE email=:email', array(':email'=>$email))) {
+                                DB::query('INSERT INTO users VALUES (NULL, :username, :email, :password, DEFAULT, DEFAULT, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)', array(':username'=>$username, ':email'=>$email, ':password'=>password_hash($password, PASSWORD_BCRYPT)));
+                                header("Location: login.php");
+                                exit;
+                            } else {
+                                $email_error = 'Email已经被注册!';
+                            }
                         } else {
-                            $email_error = 'Email已经被注册!';
+                            $email_error = 'Email格式不正确!';
                         }
                     } else {
-                        $email_error = 'Email格式不正确!';
+                        $password_error = '密码长度符！';
                     }
                 } else {
-                    $password_error = '密码长度符！';
+                    $name_error = '名字长度不符';
                 }
-            } else {
-                $name_error = '名字长度不符';
-            }
-        } else {
-            $name_error = '名字已经被使用!';
         }
+    } else {
+        header("Location: invite-register.php");
+        exit;
+    }
+} else {
+    header("Location: login.php");
+    exit;
 }
 ?>
 
@@ -50,7 +57,6 @@ if (isset($_POST['register'])) {
         <header>
             <nav>
                 <div class="container">
-                    <a href="register.php">注册</a>
                     <a href="login.php">登入</a>
                     <a id="logo" href="#">有朋</a>
                 </div>
@@ -58,7 +64,7 @@ if (isset($_POST['register'])) {
         </header>
         <div class="container">
             <div class="login-form">
-            <form action="register.php" method="post">
+            <form action="register.php?token=<?php echo $token; ?>" method="post">
                 <p>姓</p>
                 <input type="text" name="lastname" required>
                 <p>名</p>

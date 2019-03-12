@@ -39,7 +39,7 @@ if (isset($_POST['login'])) {
         <header>
             <nav>
                 <div class="container">
-                    <a href="register.php">注册</a>
+                    <a href="invite-register.php">注册</a>
                     <a href="login.php">登入</a>
                     <a id="logo" href="login.php">有朋</a>
                 </div>
@@ -61,6 +61,8 @@ if (isset($_POST['login'])) {
             <div class="storyboard">
                 <h2>欢迎来到有朋 （Beta版）</h2>
                 <p>有朋是一个实名制的社交网络，用来联络你的朋友和发现身边的人</p>
+                <p>现在测试期间，需要好友邀请才可以注册。</p>
+                <p>但所有数据都会保留到正式版，测试版用户只是更早注册。</p>
                 <p>你可以利用有朋:</p>
                 <p>通过姓名来搜索你认识的朋友</p>
                 <p>找到和你同在一个地区，公司和学校的人</p>

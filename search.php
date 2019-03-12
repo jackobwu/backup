@@ -5,12 +5,44 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $logged_id = Login::isLoggedIn();
-    if (isset($_GET['search']) && ($_GET['keyword'] != "")) {
-        $keyword = $_GET['keyword'];
-        $results = DB::query('SELECT username FROM users WHERE username LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+    if (isset($_GET['search'])) {
+        if (isset($_GET['username'])) {
+            $keyword = $_GET['username'];
+            $results = DB::query('SELECT username FROM users WHERE username LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+        } else if (isset($_GET['university'])) {
+            $keyword = $_GET['university'];
+            $results = DB::query('SELECT username FROM users WHERE university LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+        } else if (isset($_GET['livein'])) {
+            $keyword = $_GET['livein'];
+            $results = DB::query('SELECT username FROM users WHERE livein LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+        } else if (isset($_GET['relationship'])) {
+            $keyword = $_GET['relationship'];
+            $results = DB::query('SELECT username FROM users WHERE relationship LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+        } else if (isset($_GET['company'])) {
+            $keyword = $_GET['company'];
+            $results = DB::query('SELECT username FROM users WHERE company LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+        } else if (isset($_GET['profession'])) {
+            $keyword = $_GET['profession'];
+            $results = DB::query('SELECT username FROM users WHERE profession LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+        } else if (isset($_GET['hometown'])) {
+            $keyword = $_GET['hometown'];
+            $results = DB::query('SELECT username FROM users WHERE hometown LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+        } else if (isset($_GET['elementary_school'])) {
+            $keyword = $_GET['elementary_school'];
+            $results = DB::query('SELECT username FROM users WHERE elementary_school LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+        } else if (isset($_GET['junior_school'])) {
+            $keyword = $_GET['junior_school'];
+            $results = DB::query('SELECT username FROM users WHERE junior_school LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+        } else if (isset($_GET['senior_school'])) {
+            $keyword = $_GET['senior_school'];
+            $results = DB::query('SELECT username FROM users WHERE senior_school LIKE :keyword',  array(':keyword'=>"%{$keyword}%"));
+        }
+    } else {
+        header("Location: discover.php");
+        exit;
     }
 } else {
-    header("Location: /login.php");
+    header("Location: login.php");
     exit;
 }
 
@@ -37,7 +69,7 @@ if (Login::isLoggedIn()) {
                     <a href="index.php">首页</a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
-                        <input type="search" name="keyword" placeholder="查找你认识的人 ...">
+                        <input type="search" name="username" placeholder="查找你认识的人 ...">
                         <input type="submit" name="search" value="查询"> 
                     </form>
                 </div>
@@ -60,14 +92,14 @@ if (Login::isLoggedIn()) {
                 if ($user_id != $logged_id ) {?>
                     <?php if ( $user_avatar ) { ?>
                         <a class="card" href="profile.php?id=<?php echo $user_id ?>">
-                            <img src="res/uploads/<?php echo $user_avatar ?>" alt="Avatar" style="width:100%">
+                            <img src="res/uploads/<?php echo $user_avatar ?>" alt="Avatar" >
                             <div class="content">
                                 <h4><b><?php echo $username ?></b></h4> 
                             </div>
                         </a>
                     <?php } else { ?>
                         <a class="card" href="profile.php?id=<?php echo $user_id ?>">
-                            <img src="res/profile.png" alt="Avatar" style="width:100%">
+                            <img src="res/profile.png" alt="Avatar" >
                             <div class="content">
                                 <h4><b><?php echo $username ?></b></h4> 
                             </div>

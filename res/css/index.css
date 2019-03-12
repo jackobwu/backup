@@ -230,6 +230,10 @@ nav input[type=submit] {
     background-color: #fff;
 }
 
+.information a {
+    text-decoration: none;
+}
+
 .information p {
     margin-left: 2%;
 }

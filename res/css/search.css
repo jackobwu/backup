@@ -163,3 +163,9 @@ button {
 .container a {
     text-decoration: none;
 }
+
+a img {
+    display: block;
+    height: 220px;
+    width: 200px;;
+}
