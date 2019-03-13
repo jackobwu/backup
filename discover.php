@@ -5,6 +5,7 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $user_id = Login::isLoggedIn();
+    $username = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$user_id))[0]['username'];
     $recommendFriends = DB::query('SELECT y.friend_id  FROM friendship x LEFT JOIN friendship y ON y.user_id = x.friend_id AND y.friend_id <> x.user_id AND x.accept=1 LEFT JOIN friendship z ON z.friend_id = y.friend_id AND z.user_id = x.user_id WHERE x.user_id = :user_id AND z.user_id IS NULL GROUP BY y.friend_id', array(':user_id'=>$user_id));
     $totalNumbers = count($recommendFriends); 
     if ($totalNumbers > 0) {
@@ -50,9 +51,10 @@ if (Login::isLoggedIn()) {
                     </div>
                     <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
+                    <a href="index.php"><?php echo $username ?></a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
-                        <input type="search" name="keyword" placeholder="查找你认识的人 ...">
+                        <input type="search" name="username" placeholder="查找你认识的人 ...">
                         <input type="submit" name="search" value="查询"> 
                     </form>
                 </div>
@@ -61,8 +63,8 @@ if (Login::isLoggedIn()) {
         <div class="container">
             <div class="sidebar">
                 <ul>
-                    <li><a href="friends.php">我的朋友</a></li>
-                    <li><a href="received-message.php">我的消息</a></li>
+                    <li><a href="friends.php"><img src="res/contacts.svg" />我的朋友</a></li>
+                    <li><a href="received-message.php"><img src="res/mailbox.svg" />我的消息</a></li>
                 </ul>
             </div>
             <div class="main">

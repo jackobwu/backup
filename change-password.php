@@ -6,6 +6,8 @@ include 'classes/Login.php';
 $tokenIsValid = False;
 
 if (Login::isLoggedIn()) {
+        $user_id = Login::isLoggedIn();
+        $user_name = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$user_id))[0]['username'];    
         if (isset($_POST['changepassword'])) {
                 $oldpassword = $_POST['oldpassword'];
                 $newpassword = $_POST['newpassword'];
@@ -73,8 +75,9 @@ if (Login::isLoggedIn()) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
-                    <a href="discover.php">推荐</a>
+                    <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
+                    <a href="index.php"><?php echo $user_name ?></a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
                         <input type="search" name="keyword" placeholder="查找你认识的人 ...">

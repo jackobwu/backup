@@ -5,6 +5,7 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $user_id = Login::isLoggedIn();
+    $user_name = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$user_id))[0]['username'];
 } else {
     header("Location: /login.php");
     exit;
@@ -70,9 +71,10 @@ if (isset($_POST['upload'])) {
                     </div>
                     <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
+                    <a href="index.php"><?php echo $user_name ?></a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
-                        <input type="search" name="keyword" placeholder="查找你认识的人 ...">
+                        <input type="search" name="username" placeholder="查找你认识的人 ...">
                         <input type="submit" name="search" value="查询"> 
                     </form>
                 </div>
@@ -81,10 +83,10 @@ if (isset($_POST['upload'])) {
         <div class="container">
             <div class="sidebar">
                 <ul>
-                    <li><a href="edit.php">编辑资料</a></li>
-                    <li><a active href="upload.php" style="color:#1c8adb">上传头像</a></li>
-                    <li><a href="friends.php">我的朋友</a></li>
-                    <li><a href="received-message.php">我的私信</a></li>
+                    <li><a href="edit.php"><img src="res/edit.svg"/>编辑资料</a></li>
+                    <li><a active href="upload.php" style="color:#1c8adb"><img src="res/upload.svg" />上传头像</a></li>
+                    <li><a href="friends.php"><img src="res/contacts.svg" />我的朋友</a></li>
+                    <li><a href="received-message.php"><img src="res/mailbox.svg" />我的私信</a></li>
                 </ul>
             </div>
             <div class="main-content">

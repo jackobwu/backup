@@ -4,10 +4,12 @@ include 'classes/DB.php';
 include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
+    $logged_userid = Login::isLoggedIn();
+    $user_name = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$logged_userid))[0]['username'];
 
     if (isset($_GET['id'])) {
         $userid = $_GET['id'];
-        $logged_userid = Login::isLoggedIn();
+
         if ($userid != $logged_userid ) {
 
             $username = DB::query('SELECT username FROM users WHERE id=:userid', array(':userid'=>$userid))[0]['username'];
@@ -87,9 +89,10 @@ if (Login::isLoggedIn()) {
                     </div>
                     <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
+                    <a href="index.php"><?php echo $user_name ?></a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
-                        <input type="search" name="keyword" placeholder="查找你认识的人 ...">
+                        <input type="search" name="username" placeholder="查找你认识的人 ...">
                         <input type="submit" name="search" value="查询"> 
                     </form>
                 </div>
@@ -98,9 +101,9 @@ if (Login::isLoggedIn()) {
         <div class="container">
         <div class="sidebar">
             <ul>
-                <li><a href="edit.php">编辑资料</a></li>
-                <li><a href="friends.php">我的朋友</a></li>
-                <li><a href="received-message.php">我的私信</a></li>
+                <li><a href="edit.php"><img src="res/edit.svg"/>编辑资料</a></li>
+                <li><a href="friends.php"><img src="res/contacts.svg"/>我的朋友</a></li>
+                <li><a href="received-message.php"><img src="res/mailbox.svg"/>我的私信</a></li>
             </ul>
         </div>
         <div class="main">
@@ -146,7 +149,7 @@ if (Login::isLoggedIn()) {
                     <p>你们有<?php echo count($mutual_friends); ?>个共同好友</p>
                 </div>
                 <div class="friends">
-                    <div class="title">好友</div>
+                    <div class="title">好友(<?php echo count($friends); ?>)</div>
                     <?php if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$userid))){
                         $friendName1 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[0][0]))[0]['username'];
                         $friendName2 = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$friends[1][0]))[0]['username'];

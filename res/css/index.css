@@ -26,6 +26,12 @@ body {
 
 /* Navbar */
 
+.navcontainer {
+	width: 80%;
+    margin: 0 auto;
+}
+
+
 nav {
     overflow: hidden;
     background-color: #1c8adb;
@@ -118,20 +124,25 @@ nav input[type=submit] {
 
 .sidebar {
     width: 15%;
-    margin-top: 10px;
+    margin-top: 1%;
     float: left;
 }
 
 .sidebar ul {
     list-style-type: none;
-    width: 200px;
+    margin-left: 0%;
 }
 
 .sidebar li a {
     display: block;
     color: #000;
-    padding: 8px 16px;
     text-decoration: none;
+    padding: 10% 5%;
+}
+
+.sidebar li img {
+    width: 20%;
+    margin-right: 10%;
 }
 
 /* Profile */

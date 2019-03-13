@@ -48,9 +48,10 @@ if (isset($_GET['id'])) {
                     </div>
                     <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
+                    <a href="index.php"><?php echo $user_name ?></a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
-                        <input type="search" name="keyword" placeholder="查找你认识的人 ...">
+                        <input type="search" name="username" placeholder="查找你认识的人 ...">
                         <input type="submit" name="search" value="查询"> 
                     </form>
                 </div>

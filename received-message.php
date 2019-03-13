@@ -6,7 +6,7 @@ include 'classes/Login.php';
 if (Login::isLoggedIn()) {
     $user_id = Login::isLoggedIn();
     $messages = DB::query('SELECT * FROM messages WHERE receiver_id=:user_id', array(':user_id'=>$user_id));
-
+    $user_name = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$user_id))[0]['username'];
 } else {
     header("Location: login.php");
     exit;
@@ -35,9 +35,10 @@ if (Login::isLoggedIn()) {
                     </div>
                     <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
+                    <a href="index.php"><?php echo $user_name ?></a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
-                        <input type="search" name="keyword" placeholder="查找你认识的人 ...">
+                        <input type="search" name="username" placeholder="查找你认识的人 ...">
                         <input type="submit" name="search" value="查询"> 
                     </form>
                 </div>
@@ -46,9 +47,9 @@ if (Login::isLoggedIn()) {
         <div class="container">
             <div class="sidebar">
                 <ul>
-                    <li><a href="received-message.php" style="color:#1c8adb">收件箱</a></li>
-                    <li><a href="sent-message.php">发件箱</a></li>
-                    <li><a href="contact.php">联系人</a></li>
+                    <li><a href="received-message.php" style="color:#1c8adb"><img src="res/inbox.svg" />收件箱</a></li>
+                    <li><a href="sent-message.php"><img src="res/outbox.svg" />发件箱</a></li>
+                    <li><a href="contact.php"><img src="res/contacts.svg" />联系人</a></li>
                 </ul>
             </div>
             <div class="main">

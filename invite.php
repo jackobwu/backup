@@ -8,13 +8,15 @@ ini_set("display_errors","E_ALL");
 
 
 if (Login::isLoggedIn()) {
+    $user_id = Login::isLoggedIn();
+    $username = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$user_id))[0]['username'];
     if (isset($_POST['invite'])) {
         $cstrong = True;
         $token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
         $email = $_POST['email'];
         $user_id = Login::isLoggedIn();
         DB::query('INSERT INTO invite_tokens VALUES (NULL, :token, :user_id)', array(':token'=>sha1($token), ':user_id'=>$user_id));
-        Mail::sendMail('好友邀请', "欢迎加入有朋，请点击：<a href='http://upeng.fun/register.php?token=$token'>邀请链接</a>", $email);
+        Mail::sendMail('好友邀请', "欢迎加入有朋，请点击：<a href='http://localhost/register.php?token=$token'>邀请链接</a>", $email);
         header('Location: index.php');
         exit;
     }
@@ -44,6 +46,7 @@ if (Login::isLoggedIn()) {
                         </div>
                         <a href="discover.php">发现</a>
                         <a href="index.php">首页</a>
+                        <a href="index.php"><?php echo $username ?></a>
                         <a id="logo" href="index.php">有朋</a>
                         <form action="search.php" method="get">
                             <input type="search" name="keyword" placeholder="查找你认识的人 ...">

@@ -20,8 +20,18 @@ if (isset($_GET['token'])) {
                         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
                             if (!DB::query('SELECT email FROM users WHERE email=:email', array(':email'=>$email))) {
                                 DB::query('INSERT INTO users VALUES (NULL, :username, :email, :password, DEFAULT, DEFAULT, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL)', array(':username'=>$username, ':email'=>$email, ':password'=>password_hash($password, PASSWORD_BCRYPT)));
-                                header("Location: login.php");
-                                exit;
+                                if (DB::query('SELECT id FROM users WHERE email=:email', array(':email'=>$email))) {
+                                    $cstrong = True;
+                                    $token = bin2hex(openssl_random_pseudo_bytes(64, $cstrong));
+                                    $user_id = DB::query('SELECT id FROM users WHERE email=:email', array(':email'=>$email))[0]['id'];
+                                    DB::query('INSERT INTO login_tokens VALUES (NULL, :token, :user_id)', array(':token'=>sha1($token), ':user_id'=>$user_id));
+                                    setcookie("Upeng", $token, time() + 60 * 60 * 24 * 7, '/', NULL, NULL, TRUE);
+                                    header("Location: index.php");
+                                    exit;
+                                } else {
+                                    header("Location: login.php");
+                                    exit;
+                                }
                             } else {
                                 $email_error = 'Email已经被注册!';
                             }

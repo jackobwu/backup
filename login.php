@@ -21,7 +21,7 @@ if (isset($_POST['login'])) {
             header("Location: /index.php");
             exit;
         } else {
-            $passwore_error = '密码不正确!';
+            $password_error = '密码不正确!';
         }
     } else {
         $email_error = '邮箱未注册!';
