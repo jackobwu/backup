@@ -3,9 +3,7 @@
 include 'classes/DB.php';
 include 'classes/Login.php';
 
-if (!Login::isLoggedIn()) {
-    die;
-} else {
+if (Login::isLoggedIn()) {
     if (isset($_COOKIE['Upeng'])) {
         DB::query('DELETE FROM login_tokens WHERE token=:token', array(':token'=>sha1($_COOKIE['Upeng'])));
         header("Location: /login.php");
@@ -15,6 +13,8 @@ if (!Login::isLoggedIn()) {
         header("Location: /login.php");
         exit;
     }
+} else {
+    die;
 }
 
 ?>

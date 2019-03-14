@@ -5,6 +5,7 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $user_id = Login::isLoggedIn();
+    DB::query('INSERT INTO login_time VALUES (NULL, :user_id, DEFAULT)', array(':user_id'=>$user_id));
     $username = '';
     $created_at = '';
     $updated_at = '';
@@ -48,6 +49,8 @@ if (Login::isLoggedIn()) {
         $wechat = DB::query('SELECT wechat FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['wechat'];
         $qq = DB::query('SELECT qq FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['qq'];
         $about_me = DB::query('SELECT about_me FROM users WHERE id=:userid', array(':userid'=>$user_id))[0]['about_me'];
+        $unread_messsage = DB::query('SELECT readed FROM messages WHERE receiver_id=:receiver_id AND readed=0', array(':receiver_id'=>$user_id));
+        $receive_friendship = DB::query('SELECT accept FROM friendship WHERE friend_id=:friend_id AND accept=0', array(':friend_id'=>$user_id));
 
         if (DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id))) {
             $friends = DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id));
@@ -99,6 +102,7 @@ if (Login::isLoggedIn()) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
+                    <a href="activity.php">活动日志</a>
                     <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
                     <a href="index.php"><?php echo $username ?></a>
@@ -114,8 +118,8 @@ if (Login::isLoggedIn()) {
         <div class="sidebar">
             <ul>
                 <li><a href="edit.php"><img src="res/edit.svg"/>编辑资料</a></li>
-                <li><a href="friends-receive.php"><img src="res/contacts.svg" />我的朋友</a></li>
-                <li><a href="received-message.php"><img src="res/mailbox.svg" />我的私信</a></li>
+                <li><a href="friends-receive.php"><img src="res/contacts.svg" />我的朋友<?php if ($receive_friendship != NULL) { echo "(".count($receive_friendship).")";} ?></a></li>
+                <li><a href="received-message.php"><img src="res/mailbox.svg" />我的私信<?php if ($unread_messsage != NULL) { echo "(".count($unread_messsage).")";} ?></a></li>
                 <li><a href="invite.php"><img src="res/share.svg" />邀请好友</a></li>
             </ul>
         </div>

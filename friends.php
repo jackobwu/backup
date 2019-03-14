@@ -66,6 +66,7 @@ if (isset($_GET['id'])) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
+                    <a href="activity.php">活动日志</a>
                     <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
                     <a href="index.php"><?php echo $username ?></a>

@@ -8,6 +8,7 @@ if (Login::isLoggedIn()) {
     $user_name = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$user_id))[0]['username'];
     $message_id = $_GET['id'];
     $message = DB::query('SELECT * FROM messages WHERE id=:id', array(':id'=>$message_id))[0];
+    DB::query('UPDATE messages SET readed=1 WHERE id=:id', array(':id'=>$message_id));
     $sender_name = DB::query('SELECT username FROM users WHERE id=:id', array(':id'=>$message['sender_id']))[0]['username'];
     if (isset($_POST['send'])) {
         if (DB::query('SELECT id FROM users WHERE id=:receiver', array(':receiver'=>$_GET['receiver']))) {
@@ -42,6 +43,7 @@ if (Login::isLoggedIn()) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
+                    <a href="activity.php">活动日志</a>
                     <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
                     <a href="index.php"><?php echo $user_name ?></a>

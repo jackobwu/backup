@@ -10,6 +10,7 @@ if (Login::isLoggedIn()) {
         $request_id = DB::query('SELECT id from users where username=:username', array(':username'=>$_POST['request_name']))[0]['id']; 
         DB::query('UPDATE friendship SET accept=1 WHERE friend_id=:receive_id AND user_id=:request_id', array(':receive_id'=>$user_id, ':request_id'=>$request_id));
         DB::query('INSERT INTO friendship VALUES (NULL, :user_id, :friend_id, :accept, DEFAULT, DEFAULT)', array(':user_id'=>$user_id, ':friend_id'=>$request_id, ':accept'=>1));
+        DB::query('INSERT INTO activity_log VALUES ( NULL, :user_id, :friend_id, :event, DEFAULT)', array(':user_id'=>$user_id, ':friend_id'=>$request_id, ':event'=>"成为了好友"));
         header("Refresh:0");
     } else if (isset($_POST['disagree'])) {
         $request_id = DB::query('SELECT id from users where username=:username', array(':username'=>$_POST['request_name']))[0]['id']; 
@@ -37,6 +38,7 @@ if (Login::isLoggedIn()) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
+                    <a href="activity.php">活动日志</a>
                     <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
                     <a href="index.php"><?php echo $username ?></a>

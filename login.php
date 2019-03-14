@@ -18,7 +18,7 @@ if (isset($_POST['login'])) {
             $user_id = DB::query('SELECT id FROM users WHERE email=:email', array(':email'=>$email))[0]['id'];
             DB::query('INSERT INTO login_tokens VALUES (NULL, :token, :user_id)', array(':token'=>sha1($token), ':user_id'=>$user_id));
             setcookie("Upeng", $token, time() + 60 * 60 * 24 * 7, '/', NULL, NULL, TRUE);
-            header("Location: /index.php");
+            header("Location: index.php");
             exit;
         } else {
             $password_error = '密码不正确!';

@@ -37,6 +37,7 @@ if (isset($_POST['foundation'])) {
     $newlivein = $_POST['livein'];
     if (strlen($newusername) >= 3 && strlen($newusername) <= 255) {
         DB::query('UPDATE users SET username=:username, gender=:gender, birthday=:birthday, hometown=:hometown, livein=:livein WHERE id=:userid', array(':username'=>$newusername, 'gender'=>$newgender, ':userid'=>$userid, ':birthday'=>$newbirthday, ':hometown'=>$newhometown, ':livein'=>$newlivein));
+        DB::query('INSERT INTO activity_log VALUES ( NULL, :user_id, 0, :event, DEFAULT)', array(':user_id'=>$userid, ':event'=>"更新了基础信息"));
         header("Refresh:0");
         } else {
             echo 'Invalid username';
@@ -50,6 +51,7 @@ if (isset($_POST['school'])) {
     $new_university = $_POST['university'];
 
     DB::query('UPDATE users SET elementary_school=:elementary_school, junior_school=:junior_school, senior_school=:senior_school, university=:university WHERE id=:userid', array(':elementary_school'=>$new_elementary_school, ':junior_school'=>$new_junior_school, ':userid'=>$userid, ':senior_school'=>$new_senior_school, ':university'=>$new_university));
+    DB::query('INSERT INTO activity_log VALUES ( NULL, :user_id, 0, :event, DEFAULT)', array(':user_id'=>$userid, ':event'=>"更新了学校信息"));
     header("Refresh:0");
 }
 
@@ -58,6 +60,7 @@ if (isset($_POST['work'])) {
     $new_company = $_POST['company'];
 
     DB::query('UPDATE users SET profession=:profession, company=:company WHERE id=:userid', array(':profession'=>$new_profession, ':company'=>$new_company, ':userid'=>$userid));
+    DB::query('INSERT INTO activity_log VALUES ( NULL, :user_id, 0, :event, DEFAULT)', array(':user_id'=>$userid, ':event'=>"更新了工作信息"));
     header("Refresh:0");
 }
 
@@ -66,6 +69,7 @@ if (isset($_POST['relation'])) {
     $new_lookfor = $_POST['lookfor'];
 
     DB::query('UPDATE users SET relationship=:relationship, lookfor=:lookfor WHERE id=:userid', array(':relationship'=>$new_relationship, ':lookfor'=>$new_lookfor, ':userid'=>$userid));
+    DB::query('INSERT INTO activity_log VALUES ( NULL, :user_id, 0, :event, DEFAULT)', array(':user_id'=>$userid, ':event'=>"更新了感情状况"));
     header("Refresh:0");
 }
 
@@ -75,6 +79,7 @@ if (isset($_POST['contact'])) {
     $new_qq = $_POST['qq'];
 
     DB::query('UPDATE users SET mobile=:mobile, wechat=:wechat, qq=:qq WHERE id=:userid', array(':mobile'=>$new_mobile, ':wechat'=>$new_wechat, ':qq'=>$new_qq, ':userid'=>$userid));
+    DB::query('INSERT INTO activity_log VALUES ( NULL, :user_id, 0, :event, DEFAULT)', array(':user_id'=>$userid, ':event'=>"更新了联系方式"));
     header("Refresh:0");
 }
 
@@ -82,6 +87,8 @@ if (isset($_POST['about_me'])) {
     $new_about = $_POST['about_body'];
 
     DB::query('UPDATE users SET about_me=:about_me WHERE id=:userid', array(':about_me'=>$new_about, ':userid'=>$userid));
+    DB::query('INSERT INTO activity_log VALUES ( NULL, :user_id, 0, :event, DEFAULT)', array(':user_id'=>$userid, ':event'=>"更新了个人简介"));
+
     header("Refresh:0");
 }
 
@@ -104,6 +111,7 @@ if (isset($_POST['about_me'])) {
                             <a href="logout.php">退出</a>
                         </div>
                     </div>
+                    <a href="activity.php">活动日志</a>
                     <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
                     <a href="index.php"><?php echo $username ?></a>
