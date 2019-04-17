@@ -26,6 +26,12 @@ body {
 
 /* Navbar */
 
+.navcontainer {
+	width: 86%;
+    margin: 0 auto;
+}
+
+
 nav {
     overflow: hidden;
     background-color: #1c8adb;
@@ -118,12 +124,13 @@ nav input[type=submit] {
 
 .sidebar {
     width: 15%;
-    margin-top: 10px;
+    margin-top: 1%;
     float: left;
 }
 
 .sidebar ul {
     list-style-type: none;
+    margin-left: 0%;
 }
 
 .sidebar li a {
@@ -138,29 +145,111 @@ nav input[type=submit] {
     margin-right: 10%;
 }
 
-/* Email */
+/* Profile */
 
 .main {
     width: 85%;
     float: left;
-    margin-top: 30px;
+    margin-top: 10px;
 }
 
-.main .activity {
-    margin-top: 10px;
-    margin-left: 10px;
-    margin-right: 20px;
-    margin-bottom: 10px;
-    padding: 10px;
+.left {
+    width: 40%;
+    float: left;
+}
+
+.left p {
+    margin-left: 2%;
+}
+
+.avatar {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 10px;
     border-style: solid;
     border-color: #c3c3c4;
     border-width: 1px;
-    background-color:#fff;
+    background-color: #fff;
 }
 
-.main p {
-    text-align: center;
+.avatar img {
+    width: 60%;
+    margin-left: 20%; 
+    margin-bottom: 10%;
 }
+
+.aboutme {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 10px;
+    border-style: solid;
+    border-color: #c3c3c4;
+    border-width: 1px;
+    background-color: #fff;
+}
+
+.connection {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 10px;
+    border-style: solid;
+    border-color: #c3c3c4;
+    border-width: 1px;
+    background-color: #fff;
+}
+
+.mutual-friends {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 10px;
+    border-style: solid;
+    border-color: #c3c3c4;
+    border-width: 1px;
+    border-style: solid;
+    background-color: #fff;
+}
+
+.friends {
+    margin-top: 20px;
+    margin-left: 20px;
+    margin-right: 10px;
+    border-style: solid;
+    border-color: #c3c3c4;
+    border-width: 1px;
+    background-color: #fff;
+}
+
+.friends a {
+    display: block;
+    text-decoration: none;
+    margin-left: 2%; 
+}
+
+.right {
+    width: 60%;
+    float: left;
+}
+
+.information {
+    margin-top: 20px;
+    margin-left: 10px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    border-style: solid;
+    border-color: #c3c3c4;
+    border-width: 1px;
+    background-color: #fff;
+}
+
+.information a {
+    text-decoration: none;
+}
+
+.information p {
+    margin-left: 2%;
+}
+
+
 
 
 

@@ -146,7 +146,7 @@ nav input[type=submit] {
     margin-top: 30px;
 }
 
-.main .activity {
+.main .message {
     margin-top: 10px;
     margin-left: 10px;
     margin-right: 20px;
@@ -158,9 +158,22 @@ nav input[type=submit] {
     background-color:#fff;
 }
 
-.main p {
-    text-align: center;
+.message a {
+    text-decoration: none;
 }
 
+.message .email-sender {
+    width: 10%;
+    overflow: hidden;
+    float: left;
+}
 
+.message .email-content {
+    margin-left: 5%;
+}
+
+.message .email-tail {
+    float: right;
+    margin-right: 5%;
+}
 

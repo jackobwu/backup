@@ -35,12 +35,12 @@ if (isset($_POST['upload'])) {
                     if ($old_avatar != NULL) {
                         unlink($old_avatar);
                         DB::query('UPDATE users SET avatar = :avatar where id=:id', array(':id'=>$user_id, ':avatar'=>$filename));
-                        DB::query('INSERT INTO activity_log VALUES ( NULL, :user_id, 0, :event, DEFAULT)', array(':user_id'=>$user_id, ':event'=>"更新了头像"));
+                        //DB::query('INSERT INTO activity_log VALUES ( NULL, :user_id, 0, :event, DEFAULT)', array(':user_id'=>$user_id, ':event'=>"更新了头像"));
 
                         $upload = "上传成功";
                     } else {
                         DB::query('UPDATE users SET avatar = :avatar where id=:id', array(':id'=>$user_id, ':avatar'=>$filename));
-                        DB::query('INSERT INTO activity_log VALUES ( NULL, :user_id, 0, :event, DEFAULT)', array(':user_id'=>$user_id, ':event'=>"更新了头像"));
+                        //DB::query('INSERT INTO activity_log VALUES ( NULL, :user_id, 0, :event, DEFAULT)', array(':user_id'=>$user_id, ':event'=>"更新了头像"));
 
                         $upload = "上传成功";
                     }

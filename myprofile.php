@@ -8,6 +8,7 @@ include 'classes/Login.php';
 
 if (Login::isLoggedIn()) {
     $user_id = Login::isLoggedIn();
+    DB::query('INSERT INTO login_time VALUES (NULL, :user_id, DEFAULT)', array(':user_id'=>$user_id));
     $username = '';
     $created_at = '';
     $updated_at = '';
@@ -75,7 +76,6 @@ if (Login::isLoggedIn()) {
             $friendName2 = "";
             $friendName3 = "";
         }
-        DB::query('INSERT INTO login_time VALUES (NULL, :user_id, DEFAULT)', array(':user_id'=>$user_id));
     }else {
         header("Refresh:0");
     }
@@ -92,7 +92,7 @@ if (Login::isLoggedIn()) {
 <html>
     <head>
         <title>有朋</title>
-        <link rel="stylesheet" href="res/css/index.css">
+        <link rel="stylesheet" href="res/css/myprofile.css">
     </head>
     <body>
         <header>
@@ -106,8 +106,9 @@ if (Login::isLoggedIn()) {
                         </div>
                     </div>
                     <a href="activity.php">活动日志</a>
+                    <a href="discover.php">发现</a>
                     <a href="index.php">首页</a>
-                    <a href="myprofile.php"><?php echo $username ?></a>
+                    <a href="index.php"><?php echo $username ?></a>
                     <a id="logo" href="index.php">有朋</a>
                     <form action="search.php" method="get">
                         <input type="search" name="username" placeholder="查找你认识的人 ...">
@@ -118,11 +119,9 @@ if (Login::isLoggedIn()) {
         </header>
         <div class="container">
         <div class="sidebar">
-            
             <ul>
                 <li><a href="edit.php"><img src="res/edit.svg"/>编辑资料</a></li>
                 <li><a href="friends-receive.php"><img src="res/contacts.svg" />我的朋友<?php if ($receive_friendship != NULL) { echo "(".count($receive_friendship).")";} ?></a></li>
-                <li><a href="group.php"><img src="res/community.svg" />我的社群</a></li>
                 <li><a href="received-message.php"><img src="res/mailbox.svg" />我的私信<?php if ($unread_messsage != NULL) { echo "(".count($unread_messsage).")";} ?></a></li>
                 <li><a href="invite.php"><img src="res/share.svg" />邀请好友</a></li>
             </ul>
@@ -146,7 +145,6 @@ if (Login::isLoggedIn()) {
                     } ?>
 
                 </div>
-
                 <div class="friends">
                     <div class="title">好友(<?php echo $numOfFriends ?>)</div>
                     <?php if ( DB::query('SELECT friend_id FROM friendship WHERE user_id=:user_id AND accept=1', array(':user_id'=>$user_id)) ) {?>
@@ -170,12 +168,12 @@ if (Login::isLoggedIn()) {
                     <p>初中: <a href="search.php?search=1&junior_school=<?php echo $junior_school ?>"><?php echo $junior_school ?></a></p>
                     <p>高中: <a href="search.php?search=1&senior_school=<?php echo $senior_school ?>"><?php echo $senior_school ?></a></p>
                     <p>大学: <a href="search.php?search=1&university=<?php echo $university ?>"><?php echo $university ?></a></p>
-                    <p>家乡: <?php echo $hometown ?></p>
-                    <p>居住地: <?php echo $livein ?></p>
+                    <p>家乡: <a href="search.php?search=1&hometown=<?php echo $hometown ?>"><?php echo $hometown ?></a></p>
+                    <p>居住地: <a href="search.php?search=1&livein=<?php echo $livein ?>"><?php echo $livein ?></a></p>
                     <p>性别: <?php echo $gender ?></p>
                     <p>生日: <?php echo $birthday ?></p>
                     <p>工作信息</p>
-                    <p>职业: <?php echo $profession ?></p>
+                    <p>职业: <a href="search.php?search=1&profession=<?php echo $profession ?>"><?php echo $profession ?></a></p>
                     <p>公司: <a href="search.php?search=1&company=<?php echo $company ?>"><?php echo $company ?></a></p>
                     <p>个人信息</p>
                     <p>寻找: <?php echo $lookfor ?></p>

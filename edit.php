@@ -170,6 +170,9 @@ if (isset($_POST['about_me'])) {
                                 <br>
                                 <label>大学:</label>
                                 <input type="text" name="university" value="<?php echo $university ?>">
+                                <br>
+                                <label>院系:</label>
+                                <input type="text" name="senior_school" value="<?php echo $major ?>">
                                 <br><br>
                                 <input type="submit" name="school" value="修改">
                             </form>
@@ -212,7 +215,19 @@ if (isset($_POST['about_me'])) {
                                 <br>
                                 <input type="submit" name="relation" value="修改">
                             </form>
-                    </div>     
+                    </div>
+                    <div class="information">
+                        <div class="title">其他信息</div>
+                            <form action="edit.php" method="post">
+                                <label>加入的社团:</label>
+                                    <input type="text" name="group" value="<?php echo $group ?>">
+                                <br>
+                                <label>兴趣爱好:</label>
+                                    <input type="text" name="hobby" value="<?php echo $hobby ?>">
+                                <br>
+                                <input type="submit" name="relation" value="修改">
+                            </form>
+                    </div>      
                     <div class="information">
                         <div class="title">联系方式</div>
                             <form action="edit.php" method="post">
